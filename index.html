@@ -3,390 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GF Site</title>
-
-  <style>
-    :root{
-      --bg1:#0b1220;
-      --bg2:#111a2e;
-      --card:rgba(255,255,255,.08);
-      --card2:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.12);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.65);
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --r:22px;
-    }
-
-    *{ box-sizing:border-box; }
-
-    html,body{
-      height:100%;
-      margin:0;
-      color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(110,231,255,.18), transparent 60%),
-        radial-gradient(900px 700px at 90% 20%, rgba(255,112,168,.18), transparent 55%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-      overflow-x:hidden;
-    }
-
-    /* Full screen container */
-    #app{
-      min-height:100vh;
-      padding:18px;
-      display:flex;
-      justify-content:center;
-      align-items:stretch;
-    }
-
-    /* Main card */
-    .shell{
-      width: min(1300px, 98vw);
-      background: var(--card);
-      border:1px solid var(--stroke);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      padding: 18px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
-    /* Top bar */
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px 14px;
-      border-radius:16px;
-      background: var(--card2);
-      border:1px solid var(--stroke);
-    }
-
-    .brand{
-      display:flex;
-      flex-direction:column;
-      line-height:1.1;
-    }
-    .brand .title{
-      font-weight:900;
-      letter-spacing:.2px;
-      font-size:20px;
-    }
-    .brand .sub{
-      color:var(--muted);
-      font-size:13px;
-      margin-top:2px;
-    }
-
-    .pills{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      justify-content:flex-end;
-    }
-    .pill{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size:12px;
-      user-select:none;
-      white-space:nowrap;
-    }
-
-    /* Grid area */
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:14px;
-      flex:1;
-      min-height:0;
-    }
-
-    @media (max-width: 980px){
-      .grid{ grid-template-columns:1fr; }
-      #app{ padding:12px; }
-    }
-
-    .panel{
-      background: var(--card2);
-      border:1px solid var(--stroke);
-      border-radius: var(--r);
-      padding:16px;
-      min-height:0;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .panel h2{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
-    }
-    .panel p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    /* Output box */
-    .output{
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.2);
-      border-radius: 18px;
-      padding:16px;
-      min-height:120px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      font-size:18px;
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .output.muted{
-      color: rgba(255,255,255,.72);
-      font-weight:600;
-      font-size:16px;
-    }
-
-    /* Actions */
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-
-    button{
-      border:none;
-      padding:14px 18px;
-      border-radius: 16px;
-      font-size:15px;
-      font-weight:800;
-      cursor:pointer;
-      transition: transform .08s ease, opacity .2s ease;
-      color:white;
-    }
-    button:active{ transform: scale(.98); }
-    button:disabled{ opacity:.55; cursor:not-allowed; }
-
-    .btn-sweet{
-      background: linear-gradient(135deg, #ff4d8d, #ff7ab6);
-    }
-    .btn-joke{
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-    }
-    .btn-catch{
-      background: linear-gradient(135deg, #22c55e, #4ade80);
-    }
-
-    /* Right panel list look */
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      overflow:auto;
-      padding-right:4px;
-    }
-    .cardrow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding:12px 12px;
-      border-radius: 16px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.15);
-    }
-    .cardrow .left{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
-    .cardrow .left strong{
-      font-size:14px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .cardrow .left span{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .smallbtn{
-      padding:10px 12px;
-      border-radius: 14px;
-      font-size:13px;
-      font-weight:800;
-      background: rgba(255,255,255,.12);
-      border:1px solid var(--stroke);
-      color:white;
-    }
-
-    .footer-note{
-      text-align:center;
-      color:rgba(255,255,255,.6);
-      font-size:12px;
-      padding:4px 0 0;
-    }
-  </style>
+  <title>Pawanmon</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
-
 <body>
   <div id="app">
     <div class="shell">
-
-      <div class="topbar">
+      <header class="topbar">
         <div class="brand">
-          <div class="title">Hey 🙂</div>
-          <div class="sub">Project made by Pawan</div>
+          <div class="title">Project made by Pawan</div>
+          <div class="sub">Catch wild Pokémon • Battle • Status effects • Showdown-style switching</div>
         </div>
 
-        <div class="pills">
-          <div class="pill">💬 AI Messages</div>
-          <div class="pill">🎮 Pokémon vibes</div>
-          <div class="pill">⚡ Full screen</div>
+        <div class="stats">
+          <div class="chip">🪙 Coins: <b id="coins">0</b></div>
+          <div class="chip">🎒 Balls: <b id="ballCount">0</b></div>
+          <div class="chip">🐾 Caught: <b id="caughtCount">0</b></div>
+          <div class="chip">🔥 Streak: <b id="streak">0</b></div>
         </div>
-      </div>
+      </header>
 
-      <div class="grid">
-        <!-- LEFT: AI panel -->
-        <div class="panel">
-          <h2>AI Generator</h2>
-          <p>Sweet messages + funnier jokes. No more infinite “Thinking…”</p>
-
-          <div id="ai-output" class="output muted">Tap a button 👇</div>
-
-          <div class="actions">
-            <button id="btn-sweet" class="btn-sweet" onclick="getAI('sweet')">Sweet Message</button>
-            <button id="btn-joke" class="btn-joke" onclick="getAI('joke')">Funny Joke</button>
-            <button id="btn-catch" class="btn-catch" onclick="fakeCatch()">Catch a Pokémon</button>
-          </div>
-
-          <div class="footer-note">
-            If AI fails, it won’t freeze — it will show an error and you can retry.
-          </div>
-        </div>
-
-        <!-- RIGHT: simple “shop/extra” panel (you can replace with your Poké Mart later) -->
-        <div class="panel">
-          <h2>Quick Extras</h2>
-          <p>Simple clean card list. Replace this with your Poké Mart UI anytime.</p>
-
-          <div class="list">
-            <div class="cardrow">
-              <div class="left">
-                <strong>Idea: Daily Message</strong>
-                <span>One AI message per day, saved locally</span>
-              </div>
-              <button class="smallbtn" onclick="alert('Later we can add daily mode 👀')">Enable</button>
+      <main class="main">
+        <!-- LEFT -->
+        <section class="panel">
+          <div class="tabs">
+            <div class="tabset">
+              <button class="tabbtn active" data-tab="encounter">Encounter</button>
+              <button class="tabbtn" data-tab="battle">Battle</button>
+              <button class="tabbtn" data-tab="pokedex">Pokédex</button>
+              <button class="tabbtn" data-tab="pc">PC</button>
             </div>
 
-            <div class="cardrow">
-              <div class="left">
-                <strong>Idea: Streak System</strong>
-                <span>Each click increases streak + better jokes</span>
-              </div>
-              <button class="smallbtn" onclick="alert('We can add streak + localStorage')">Enable</button>
-            </div>
-
-            <div class="cardrow">
-              <div class="left">
-                <strong>Idea: Typing Animation</strong>
-                <span>Makes responses feel “alive”</span>
-              </div>
-              <button class="smallbtn" onclick="alert('We can add typing animation next')">Enable</button>
-            </div>
-
-            <div class="cardrow">
-              <div class="left">
-                <strong>Idea: Sound Toggle</strong>
-                <span>Cute click sounds (optional)</span>
-              </div>
-              <button class="smallbtn" onclick="alert('We can add sound effects')">Enable</button>
+            <div class="tabset">
+              <button class="tabbtn" id="healBtn">Heal</button>
+              <button class="tabbtn" id="resetBtn">Reset</button>
             </div>
           </div>
-        </div>
-      </div>
 
+          <div class="content">
+
+            <!-- Encounter -->
+            <div id="tab-encounter">
+              <div class="row">
+                <div class="card">
+                  <div class="mini">Encounter art</div>
+                  <div class="artBox">
+                    <img id="encArt" alt="Encounter" class="artImg" style="display:none;">
+                    <div id="encArtFallback" class="mini">Spawn a Pokémon</div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <h2 class="h2">Wild Encounter</h2>
+                  <div id="encMeta" class="metaRow"></div>
+
+                  <div class="bigText muted" id="encText">Tap “Spawn Pokémon”</div>
+
+                  <div class="actions">
+                    <button class="green" id="spawnBtn">Spawn Pokémon</button>
+                    <button class="blue" id="battleBtn">Battle</button>
+                    <button class="pink" id="throwBtn">Throw Ball</button>
+                    <button class="gray" id="runBtn">Run</button>
+                  </div>
+
+                  <label class="mini">Choose ball:</label>
+                  <select id="ballSelect"></select>
+
+                  <div class="toast" id="encToast">
+                    Spawn cooldown: 5 seconds • Only Master Ball is 100% • Status effects help catching.
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h3 class="h3">Your Party (max 6) — click to select active</h3>
+                <div class="party" id="party"></div>
+                <div class="mini">If all party faint → wild runs away.</div>
+              </div>
+            </div>
+
+            <!-- Battle -->
+            <div id="tab-battle" style="display:none;">
+              <div class="card">
+                <h2 class="h2">Battle</h2>
+
+                <div class="battleStage" id="battleStage">
+                  <div class="platform platWild"></div>
+                  <div class="platform platMe"></div>
+
+                  <div class="hud hudWild">
+                    <div class="hudTop">
+                      <div class="hudName" id="wildName">Wild —</div>
+                      <div class="hudLvl" id="wildLvl">Lv. —</div>
+                    </div>
+                    <div class="hudHP">
+                      <div class="bar"><div class="fill" id="wildHPFill"></div></div>
+                      <div class="num" id="wildHPNum">—/—</div>
+                    </div>
+                    <div class="hudLine" id="wildTypes">—</div>
+                    <div class="hudLine" id="wildStatus">—</div>
+                  </div>
+
+                  <div class="hud hudMe">
+                    <div class="hudTop">
+                      <div class="hudName" id="meName">You —</div>
+                      <div class="hudLvl" id="meLvl">Lv. —</div>
+                    </div>
+                    <div class="hudHP">
+                      <div class="bar"><div class="fill" id="meHPFill"></div></div>
+                      <div class="num" id="meHPNum">—/—</div>
+                    </div>
+                    <div class="hudLine" id="meTypes">—</div>
+                    <div class="hudLine" id="meStatus">—</div>
+                  </div>
+
+                  <img id="wildSprite" class="sprite wildSprite" alt="Wild sprite">
+                  <img id="meSprite" class="sprite meSprite" alt="Your sprite">
+
+                  <!-- Capture animation overlay -->
+                  <div id="capOverlay" class="capOverlay" style="display:none;">
+                    <div class="capBall" id="capBall">⚪</div>
+                    <div class="capText" id="capText">Throw!</div>
+                  </div>
+                </div>
+
+                <div class="toast" id="battleLog">Start a wild encounter first.</div>
+
+                <div class="battleGrid">
+                  <div>
+                    <h3 class="h3">Moves</h3>
+                    <div class="moves" id="moveGrid"></div>
+                  </div>
+
+                  <div>
+                    <h3 class="h3">Bag</h3>
+                    <div class="bag" id="bagGrid"></div>
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <button class="pink" id="battleCatchBtn">Try Catch</button>
+                  <button class="gray" id="battleRunBtn">Run</button>
+                </div>
+
+                <h3 class="h3">Switch (Showdown-style)</h3>
+                <div class="switchGrid" id="switchGrid"></div>
+
+                <div class="mini">Switching uses your turn (wild attacks after).</div>
+              </div>
+            </div>
+
+            <!-- Dex -->
+            <div id="tab-pokedex" style="display:none;">
+              <div class="card">
+                <h2 class="h2">Pokédex</h2>
+                <div class="mini">Seen/caught list.</div>
+                <div id="dexList" class="gridList"></div>
+              </div>
+            </div>
+
+            <!-- PC -->
+            <div id="tab-pc" style="display:none;">
+              <div class="card">
+                <h2 class="h2">PC Storage</h2>
+                <div class="mini">Extra Pokémon beyond your party of 6.</div>
+                <div id="pcList" class="gridList"></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <aside class="panel">
+          <div class="card">
+            <h2 class="h2">Poké Mart</h2>
+            <div class="mini">Buy balls + items (items work in battle bag).</div>
+          </div>
+
+          <div class="content">
+            <div class="card">
+              <h3 class="h3">Balls</h3>
+              <div class="gridList" id="shopBalls"></div>
+            </div>
+
+            <div class="card">
+              <h3 class="h3">Items</h3>
+              <div class="gridList" id="shopItems"></div>
+            </div>
+
+            <div class="card">
+              <h3 class="h3">Tips</h3>
+              <div class="toast">
+                • Status helps catching: Sleep/Freeze best, then Para/Burn/Poison.<br>
+                • Moves get STAB if your type matches the move type.<br>
+                • Super effective = more damage. Not very effective = less.<br>
+                • Don’t spam spawn: 5s cooldown.
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
     </div>
   </div>
 
-  <script>
-    // Local fallback messages so it never feels broken
-    const fallbackSweet = [
-      "Just so you know, you make my day better.",
-      "If I could keep one thing forever, it’d be you in my life.",
-      "You’re the calm in my chaos.",
-      "I’m grateful you exist."
-    ];
-
-    const fallbackJokes = [
-      "I tried to be productive, but my bed rolled a critical hit.",
-      "My brain has two modes: loading… and low battery.",
-      "I’m not lazy, I’m on energy-saving mode.",
-      "I’d tell you a joke about Wi-Fi, but it’s probably not going to connect."
-    ];
-
-    function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
-
-    async function getAI(type) {
-      const output = document.getElementById("ai-output");
-      const sweetBtn = document.getElementById("btn-sweet");
-      const jokeBtn  = document.getElementById("btn-joke");
-
-      // Disable buttons while loading to prevent spam + overlapping requests
-      sweetBtn.disabled = true;
-      jokeBtn.disabled = true;
-
-      output.classList.add("muted");
-      output.textContent = "Thinking...";
-
-      // Abort fetch if it takes too long (prevents infinite “Thinking…”)
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 9000); // 9s timeout
-
-      try {
-        const res = await fetch(`/.netlify/functions/generate?type=${encodeURIComponent(type)}`, {
-          method: "GET",
-          signal: controller.signal
-        });
-
-        if (!res.ok) throw new Error("Server error");
-
-        const data = await res.json();
-        const text = (data && data.text) ? String(data.text) : "";
-
-        output.classList.remove("muted");
-        output.textContent = text || (type === "joke" ? pick(fallbackJokes) : pick(fallbackSweet));
-
-      } catch (err) {
-        console.error(err);
-        output.classList.remove("muted");
-        output.textContent = (type === "joke" ? pick(fallbackJokes) : pick(fallbackSweet)) + " (fallback)";
-      } finally {
-        clearTimeout(timeout);
-        sweetBtn.disabled = false;
-        jokeBtn.disabled = false;
-      }
-    }
-
-    // Placeholder catch button so your page feels alive
-    function fakeCatch(){
-      const output = document.getElementById("ai-output");
-      output.classList.remove("muted");
-      output.textContent = "You threw a Poké Ball… *shake* … *shake* … GOT IT! ✅";
-    }
-  </script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
