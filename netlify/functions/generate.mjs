@@ -7,14 +7,13 @@ export const handler = async (event) => {
       return {
         statusCode: 500,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Missing OPENAI_API_KEY env var" })
+        body: JSON.stringify({ error: "Missing OPENAI_API_KEY env var" }),
       };
     }
 
     const type = String(event.queryStringParameters?.type || "sweet").toLowerCase();
     const isJoke = type === "joke";
 
-    // Optional: let the site send extra context in the body (POST).
     let extra = "";
     if (event.httpMethod === "POST" && event.body) {
       try {
@@ -23,43 +22,48 @@ export const handler = async (event) => {
       } catch (_) {}
     }
 
-    const instructions = isJoke
-      ? "Write ONE short funny joke for a gamer girl. Keep it friendly and cute. No em dashes. Output only the joke."
-      : "Write ONE short sweet message that feels human and genuine. Keep it friendly and cute. No em dashes. Output only the message.";
+    // Make the model respond fast by forcing SHORT output + one-liners.
+    const system = isJoke
+      ? "You are a fast comedy writer. Output ONLY one short funny one-liner joke. No emojis. No explanations. No em dashes."
+      : "You are a fast romantic texter. Output ONLY one short sweet message. No emojis. No explanations. No em dashes.";
 
-    const input = isJoke
-      ? "Make it playful and gaming themed, like cozy gamer humor."
-      : "Make it warm and simple, like something you would text someone you care about.";
+    const user = isJoke
+      ? "Make it actually funny. Safe, friendly, slightly gamer/nerdy, one-liner."
+      : "Make it warm and simple, like a real text message someone would send.";
 
     const client = new OpenAI({ apiKey: key });
 
-   const resp = await client.chat.completions.create({
-  	model: "gpt-4o-mini",
-  	messages: [
-    	{ role: "system", content: instructions },
-    	{ role: "user", content: extra ? `${input}\n\nExtra context: ${extra}` : input }
-  	],
-  	temperature: 0.9,
-  	max_tokens: 80
-	});
+    const resp = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: extra ? `${user}\nExtra context: ${extra}` : user },
+      ],
+      temperature: isJoke ? 1.2 : 0.9,
+      max_tokens: 60,
+    });
 
-	const text = resp.choices?.[0]?.message?.content?.trim() || "";
+    const text = (resp.choices?.[0]?.message?.content || "").trim();
 
     return {
       statusCode: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "no-store"
+        "Cache-Control": "no-store",
       },
       body: JSON.stringify({
-        text: text || (isJoke ? "I tried to be productive but my bed used Taunt." : "You make today feel easier.")
-      })
+        text:
+          text ||
+          (isJoke
+            ? "I tried to be productive, but my bed rolled a critical hit."
+            : "Just a reminder: you make my day better."),
+      }),
     };
   } catch (err) {
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Function error", details: String(err?.message || err) })
+      body: JSON.stringify({ error: "Function error", details: String(err?.message || err) }),
     };
   }
 };

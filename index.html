@@ -2,2622 +2,391 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>From Deepjwal to Jada</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GF Site</title>
 
   <style>
     :root{
-      --bg1:#ffe6ee;
-      --bg2:#e6f0ff;
-      --card: rgba(255,255,255,.80);
-      --text:#14172a;
-      --muted: rgba(20,23,42,.70);
-      --stroke: rgba(0,0,0,.08);
-      --shadow: 0 18px 60px rgba(0,0,0,.16);
-      --pink:#ff4d7d;
-      --blue:#3b82f6;
-      --green:#22c55e;
-      --gold:#f59e0b;
-      --purple:#a855f7;
-      --red:#ef4444;
-      --radius:22px;
-    }
-
-    body.dark{
-      --bg1:#0b1020;
-      --bg2:#0f172a;
-      --card: rgba(255,255,255,.08);
-      --text:#f3f5ff;
-      --muted: rgba(243,245,255,.72);
-      --stroke: rgba(255,255,255,.14);
-      --shadow: 0 18px 80px rgba(0,0,0,.60);
+      --bg1:#0b1220;
+      --bg2:#111a2e;
+      --card:rgba(255,255,255,.08);
+      --card2:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.65);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --r:22px;
     }
 
     *{ box-sizing:border-box; }
-    body{
+
+    html,body{
+      height:100%;
       margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:24px;
-      font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
       color:var(--text);
-      background: radial-gradient(1200px 600px at 20% 0%, var(--bg1), transparent 60%),
-                  radial-gradient(1200px 700px at 80% 100%, var(--bg2), transparent 60%),
-                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(110,231,255,.18), transparent 60%),
+        radial-gradient(900px 700px at 90% 20%, rgba(255,112,168,.18), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
     }
 
-    .wrap{ width:min(980px, 100%); position:relative; }
-    .glow{
-      position:absolute; inset:-40px; filter: blur(26px); opacity:.45; pointer-events:none;
-      background: radial-gradient(circle at 30% 20%, rgba(255,77,125,.35), transparent 55%),
-                  radial-gradient(circle at 70% 80%, rgba(59,130,246,.35), transparent 55%);
-      z-index:0;
+    /* Full screen container */
+    #app{
+      min-height:100vh;
+      padding:18px;
+      display:flex;
+      justify-content:center;
+      align-items:stretch;
     }
 
-    .card{
-      position:relative; z-index:1;
+    /* Main card */
+    .shell{
+      width: min(1300px, 98vw);
       background: var(--card);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--stroke);
-      border-radius: var(--radius);
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
       box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
       padding: 18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
     }
 
+    /* Top bar */
     .topbar{
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 12px;
-    }
-
-    .pills{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px; border-radius:999px;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background: var(--card2);
       border:1px solid var(--stroke);
-      background: rgba(255,255,255,.45);
-      color: var(--muted);
-      font-weight:950; font-size:13px;
-      user-select:none;
-    }
-    body.dark .pill{ background: rgba(0,0,0,.25); }
-
-    .mini{
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.45);
-      color: var(--text);
-      padding:10px 12px;
-      border-radius:999px;
-      font-weight:1000;
-      cursor:pointer;
-      transition: transform .08s ease, filter .12s ease;
-      user-select:none;
-    }
-    body.dark .mini{ background: rgba(0,0,0,.25); }
-    .mini:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-    .mini:active{ transform: translateY(0px); }
-
-    .banner{
-      width:100%;
-      max-height: 160px;
-      object-fit: cover;
-      border-radius: 18px;
-      border:1px solid var(--stroke);
-      display:block;
-      background: rgba(255,255,255,.6);
-      margin-bottom: 12px;
-    }
-    body.dark .banner{ background: rgba(255,255,255,.06); }
-
-    .header{ text-align:center; padding: 6px 8px 0; }
-    h1{
-      margin: 6px 0 6px;
-      font-size: 32px;
-      font-weight: 1000;
-      letter-spacing: -0.6px;
-    }
-    .fromline{
-      margin: 0 0 8px;
-      font-size: 18px;
-      font-weight: 1000;
-      opacity: .96;
-    }
-    .sub{
-      margin: 0 0 10px;
-      font-size: 14px;
-      color: var(--muted);
-      font-weight: 900;
     }
 
-    .grid2{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 12px;
-      margin-top: 10px;
-      align-items: start;
-    }
-    @media (max-width: 860px){
-      .grid2{ grid-template-columns: 1fr; }
-    }
-
-    .panel{
-      border:1px solid var(--stroke);
-      border-radius: 18px;
-      background: rgba(255,255,255,.60);
-      padding: 12px;
-      position: relative;
-      overflow:hidden;
-    }
-    body.dark .panel{ background: rgba(255,255,255,.05); }
-
-    .encounter{
-      display:grid;
-      grid-template-columns: 260px 1fr;
-      gap: 12px;
-      align-items: center;
-    }
-    @media (max-width: 860px){
-      .encounter{ grid-template-columns: 1fr; }
-    }
-
-    .pokeCard{
-      border:1px solid var(--stroke);
-      border-radius: 18px;
-      background: rgba(255,255,255,.70);
-      padding: 12px;
-      position: relative;
-      overflow:hidden;
-    }
-    body.dark .pokeCard{ background: rgba(255,255,255,.06); }
-
-    .pokeGlow{
-      position:absolute;
-      inset:-40%;
-      opacity:0;
-      pointer-events:none;
-      filter: blur(20px);
-      background: radial-gradient(circle at 30% 30%, rgba(245,158,11,.45), transparent 55%),
-                  radial-gradient(circle at 70% 70%, rgba(168,85,247,.45), transparent 55%);
-      transition: opacity .2s ease;
-    }
-    .pokeCard.epic .pokeGlow{ opacity:.85; }
-    .pokeCard.legendary .pokeGlow{ opacity:1; }
-
-    .pokeImgWrap{
-      border-radius: 16px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.85);
-      display:grid;
-      place-items:center;
-      height: 240px;
-      overflow:hidden;
-      position: relative;
-    }
-    body.dark .pokeImgWrap{ background: rgba(0,0,0,.22); }
-
-    .pokeImg{
-      width: 220px;
-      height: 220px;
-      object-fit: contain;
-      image-rendering: pixelated;
-      z-index: 1;
-    }
-
-    .sparkle{
-      position:absolute; inset:0; opacity:0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,.6), transparent 35%),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,.45), transparent 35%),
-        radial-gradient(circle at 55% 20%, rgba(255,255,255,.35), transparent 35%);
-      transition: opacity .2s ease;
-    }
-    .pokeCard.epic .sparkle,
-    .pokeCard.legendary .sparkle{ opacity:.85; }
-
-    .shinyBadge{
-      position:absolute;
-      top: 10px; left: 10px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid var(--stroke);
-      background: rgba(245,158,11,.20);
-      font-weight: 1000;
-      font-size: 12px;
-      display:none;
-      z-index: 2;
-    }
-    body.dark .shinyBadge{ background: rgba(245,158,11,.22); }
-    .pokeCard.shiny .shinyBadge{ display:inline-flex; }
-
-    .pokeInfo h2{ margin: 0 0 6px; font-size: 22px; font-weight: 1000; }
-    .metaRow{ display:flex; flex-wrap:wrap; gap:8px; margin: 8px 0 10px; }
-
-    .tag{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.45);
-      font-weight: 1000;
-      font-size: 12px;
-      color: var(--muted);
-      user-select:none;
-    }
-    body.dark .tag{ background: rgba(0,0,0,.25); }
-
-    .rar-common{ color:#16a34a; }
-    .rar-uncommon{ color:#2563eb; }
-    .rar-rare{ color:#b45309; }
-    .rar-epic{ color:#7c3aed; }
-    .rar-legendary{ color:#dc2626; }
-
-    .screen{
-      margin: 12px 0 12px;
-      padding: 20px;
-      border-radius: 18px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.90);
-      min-height: 120px;
-      display:grid;
-      place-items:center;
-      text-align:center;
-      font-size: 22px;
-      line-height: 1.55;
-      font-weight: 1000;
-      overflow:hidden;
-    }
-    body.dark .screen{ background: rgba(255,255,255,.06); }
-
-    .cursor{
-      display:inline-block; width:10px; margin-left:2px; opacity:.95;
-      animation: blink 1s infinite;
-    }
-    @keyframes blink{ 0%,50%{opacity:1} 51%,100%{opacity:0} }
-
-    .btnRow{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    @media (max-width: 860px){
-      .btnRow{ grid-template-columns: 1fr; }
-    }
-
-    .btn{
-      padding: 14px 16px;
-      border: none;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 1000;
-      color: white;
-      cursor:pointer;
-      user-select:none;
-      transition: transform .08s ease, filter .15s ease;
-      position:relative;
-      overflow:hidden;
-    }
-    .btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
-    .btn:active{ transform: translateY(0px); }
-
-    .sweet{ background: linear-gradient(135deg, #ff4d7d, #ff2f6e); }
-    .joke { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-    .catch{ background: linear-gradient(135deg, #22c55e, #16a34a); }
-
-    .btn::after{
-      content:"";
-      position:absolute; inset:-40%;
-      transform: rotate(25deg) translateX(-120%);
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
-      transition: transform .5s ease;
-    }
-    .btn:hover::after{ transform: rotate(25deg) translateX(120%); }
-
-    .shopTop{
+    .brand{
       display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom: 10px;
+      flex-direction:column;
+      line-height:1.1;
     }
-    .shopTitle{ font-weight:1000; font-size: 16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .brand .title{
+      font-weight:900;
+      letter-spacing:.2px;
+      font-size:20px;
+    }
+    .brand .sub{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:2px;
+    }
 
-    .saleBadge{
+    .pills{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    .pill{
       padding:8px 10px;
       border-radius:999px;
       border:1px solid var(--stroke);
-      background: rgba(245,158,11,.18);
-      font-size: 12px;
-      font-weight: 1000;
-      color: var(--text);
-      display:none;
-    }
-    body.dark .saleBadge{ background: rgba(245,158,11,.20); }
-
-    .shopGrid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 860px){
-      .shopGrid{ grid-template-columns: 1fr; }
-    }
-
-    .itemRow{
-      border:1px solid var(--stroke);
-      border-radius: 16px;
-      padding: 10px;
-      background: rgba(255,255,255,.55);
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    body.dark .itemRow{ background: rgba(0,0,0,.20); }
-
-    .itemLeft{ display:flex; gap:10px; align-items:center; min-width: 0; }
-    .itemName{ font-weight: 1000; font-size: 14px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
-    .itemSub{ font-size: 12px; color: var(--muted); font-weight: 900; margin-top: 2px; }
-
-    .buyBtn{
-      border:none;
-      border-radius: 14px;
-      padding: 10px 10px;
-      font-weight: 1000;
-      cursor:pointer;
-      background: rgba(59,130,246,.14);
-      color: var(--text);
-      min-width: 94px;
-    }
-    body.dark .buyBtn{ background: rgba(59,130,246,.20); color: var(--text); }
-    .buyBtn:hover{ filter: brightness(1.05); }
-
-    .selectRow{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-top: 10px;
-      flex-wrap:wrap;
-    }
-
-    select{
-      border:1px solid var(--stroke);
-      border-radius: 14px;
-      padding: 10px;
-      font-weight: 950;
-      background: rgba(255,255,255,.65);
-      color: var(--text);
-      outline:none;
-    }
-    body.dark select{ background: rgba(0,0,0,.25); }
-
-    .footer{
-      margin-top: 12px;
-      text-align:center;
+      background: rgba(0,0,0,.18);
       color: var(--muted);
-      font-size: 13px;
-      font-weight: 900;
-      opacity: .9;
+      font-size:12px;
+      user-select:none;
+      white-space:nowrap;
     }
 
-    canvas#hearts{
-      position: fixed;
-      inset: 0;
-      pointer-events:none;
-      z-index: 998;
+    /* Grid area */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      flex:1;
+      min-height:0;
     }
 
-    .toast{
-      position: fixed;
-      left:50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      padding: 12px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.85);
-      color: var(--text);
-      box-shadow: 0 10px 30px rgba(0,0,0,.12);
-      font-weight: 1000;
-      opacity:0;
-      pointer-events:none;
-      transition: opacity .25s ease, transform .25s ease;
-      z-index:999;
+    @media (max-width: 980px){
+      .grid{ grid-template-columns:1fr; }
+      #app{ padding:12px; }
     }
-    body.dark .toast{ background: rgba(15,23,42,.85); }
-    .toast.show{ opacity:1; transform: translateX(-50%) translateY(-6px); }
 
-    /* Modal */
-    .modalBack{
-      position: fixed;
-      inset:0;
-      background: rgba(0,0,0,.45);
-      display:none;
+    .panel{
+      background: var(--card2);
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      padding:16px;
+      min-height:0;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .panel h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .panel p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Output box */
+    .output{
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.2);
+      border-radius: 18px;
+      padding:16px;
+      min-height:120px;
+      display:flex;
       align-items:center;
       justify-content:center;
-      padding: 18px;
-      z-index: 1000;
-    }
-    .modalBack.show{ display:flex; }
-
-    .modal{
-      width: min(980px, 100%);
-      max-height: 86vh;
-      overflow:auto;
-      background: var(--card);
-      border:1px solid var(--stroke);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 14px;
-      backdrop-filter: blur(10px);
-    }
-
-    .modalTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom: 10px;
-    }
-    .modalTitle{ font-weight:1000; font-size: 18px; }
-
-    .dexGrid{
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-    }
-    @media (max-width: 920px){ .dexGrid{ grid-template-columns: repeat(5, 1fr);} }
-    @media (max-width: 560px){ .dexGrid{ grid-template-columns: repeat(3, 1fr);} }
-
-    .dexCard{
-      border:1px solid var(--stroke);
-      border-radius: 16px;
-      background: rgba(255,255,255,.55);
-      padding: 10px;
-      display:grid;
-      place-items:center;
-      gap: 6px;
-      cursor:pointer;
-      transition: transform .08s ease, filter .12s ease;
       text-align:center;
+      font-size:18px;
+      font-weight:700;
+      letter-spacing:.2px;
     }
-    body.dark .dexCard{ background: rgba(0,0,0,.20); }
-    .dexCard:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-    .dexImg{ width: 92px; height: 92px; object-fit: contain; }
-    .dexName{ font-weight: 1000; font-size: 12px; color: var(--muted); line-height: 1.2; }
-
-    .partyRow{
-      display:grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    @media (max-width: 720px){ .partyRow{ grid-template-columns: repeat(3, 1fr);} }
-
-    .slot{
-      border:1px dashed var(--stroke);
-      border-radius: 16px;
-      background: rgba(255,255,255,.35);
-      padding: 10px;
-      display:grid;
-      place-items:center;
-      gap:6px;
-      min-height: 120px;
-    }
-    body.dark .slot{ background: rgba(0,0,0,.18); }
-
-    .slotFilled{
-      border-style: solid;
-      background: rgba(255,255,255,.55);
-      cursor:pointer;
-      transition: transform .08s ease, filter .12s ease;
-    }
-    body.dark .slotFilled{ background: rgba(0,0,0,.20); }
-    .slotFilled:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-
-    .hpbar{
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.10);
-      border: 1px solid var(--stroke);
-      overflow:hidden;
-      width: 100%;
-      max-width: 360px;
-    }
-    .hpfill{
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, var(--green), #16a34a);
+    .output.muted{
+      color: rgba(255,255,255,.72);
+      font-weight:600;
+      font-size:16px;
     }
 
-    .battleGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    @media (max-width: 860px){ .battleGrid{ grid-template-columns: 1fr; } }
-
-    .battleCard{
-      border:1px solid var(--stroke);
-      border-radius: 18px;
-      background: rgba(255,255,255,.55);
-      padding: 12px;
-    }
-    body.dark .battleCard{ background: rgba(0,0,0,.20); }
-
-    .battleActions{
+    /* Actions */
+    .actions{
       display:flex;
-      flex-wrap:wrap;
       gap:10px;
-      margin-top: 10px;
+      flex-wrap:wrap;
+      justify-content:center;
     }
-    .actionBtn{
-      border:none;
-      border-radius: 16px;
-      padding: 12px 12px;
-      font-weight: 1000;
-      cursor:pointer;
-      background: rgba(59,130,246,.16);
-      color: var(--text);
-    }
-    body.dark .actionBtn{ background: rgba(59,130,246,.22); }
-    .actionBtn:hover{ filter: brightness(1.05); }
-    .actionBtn:disabled{ opacity:.55; cursor:not-allowed; }
 
-    .moveGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    @media (max-width: 720px){ .moveGrid{ grid-template-columns: 1fr; } }
-    .moveBtn{
+    button{
       border:none;
+      padding:14px 18px;
       border-radius: 16px;
-      padding: 12px;
-      font-weight: 1000;
+      font-size:15px;
+      font-weight:800;
       cursor:pointer;
-      background: rgba(255,255,255,.55);
-      color: var(--text);
+      transition: transform .08s ease, opacity .2s ease;
+      color:white;
+    }
+    button:active{ transform: scale(.98); }
+    button:disabled{ opacity:.55; cursor:not-allowed; }
+
+    .btn-sweet{
+      background: linear-gradient(135deg, #ff4d8d, #ff7ab6);
+    }
+    .btn-joke{
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    }
+    .btn-catch{
+      background: linear-gradient(135deg, #22c55e, #4ade80);
+    }
+
+    /* Right panel list look */
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow:auto;
+      padding-right:4px;
+    }
+    .cardrow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 12px;
+      border-radius: 16px;
       border:1px solid var(--stroke);
-      text-align:left;
-      transition: transform .08s ease, filter .12s ease;
+      background: rgba(0,0,0,.15);
     }
-    body.dark .moveBtn{ background: rgba(0,0,0,.20); }
-    .moveBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
-    .moveBtn:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
-    .moveMeta{ font-size: 12px; color: var(--muted); font-weight: 900; margin-top: 4px; }
+    .cardrow .left{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .cardrow .left strong{
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .cardrow .left span{
+      font-size:12px;
+      color:var(--muted);
+    }
 
-    .shake{ animation: shake .22s ease-in-out 0s 2; }
-    @keyframes shake{
-      0%{ transform: translateX(0); }
-      25%{ transform: translateX(-6px); }
-      50%{ transform: translateX(6px); }
-      75%{ transform: translateX(-4px); }
-      100%{ transform: translateX(0); }
+    .smallbtn{
+      padding:10px 12px;
+      border-radius: 14px;
+      font-size:13px;
+      font-weight:800;
+      background: rgba(255,255,255,.12);
+      border:1px solid var(--stroke);
+      color:white;
+    }
+
+    .footer-note{
+      text-align:center;
+      color:rgba(255,255,255,.6);
+      font-size:12px;
+      padding:4px 0 0;
     }
   </style>
 </head>
 
 <body>
-  <canvas id="hearts"></canvas>
+  <div id="app">
+    <div class="shell">
 
-  <div class="wrap">
-    <div class="glow"></div>
-
-    <div class="card" id="mainCard">
       <div class="topbar">
+        <div class="brand">
+          <div class="title">Hey 🙂</div>
+          <div class="sub">Project made by Pawan</div>
+        </div>
+
         <div class="pills">
-          <div class="pill" id="coinsPill">🪙 Coins: 100</div>
-          <div class="pill" id="ballPill">⚪ Ball: Poké Ball</div>
-          <div class="pill" id="caughtPill">📘 Caught: 0</div>
-          <div class="pill" id="streakPill">🔥 Streak: 0</div>
-        </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button class="mini" id="pokedexBtn">Pokédex</button>
-          <button class="mini" id="pcBtn">PC</button>
-          <button class="mini" id="battleBtn">Battle</button>
-          <button class="mini" id="themeBtn">Toggle Dark</button>
-          <button class="mini" id="resetBtn">Reset</button>
+          <div class="pill">💬 AI Messages</div>
+          <div class="pill">🎮 Pokémon vibes</div>
+          <div class="pill">⚡ Full screen</div>
         </div>
       </div>
 
-      <img class="banner" src="assets/top.jpg" alt="banner"
-           onerror="this.onerror=null; this.style.display='none';" />
-
-      <div class="header">
-        <h1>Hey 🙂</h1>
-        <div class="fromline">From Deepjwal to Jada</div>
-        <div class="sub">Sweet, funny, catch Pokémon, build a party, and battle.</div>
-      </div>
-
-      <div class="grid2">
+      <div class="grid">
+        <!-- LEFT: AI panel -->
         <div class="panel">
-          <div class="encounter">
-            <div class="pokeCard" id="pokeCard">
-              <div class="pokeGlow"></div>
-              <div class="shinyBadge">✨ SHINY ✨</div>
-              <div class="pokeImgWrap">
-                <div class="sparkle"></div>
-                <img id="pokeImg" class="pokeImg" alt="pokemon" />
-              </div>
-            </div>
+          <h2>AI Generator</h2>
+          <p>Sweet messages + funnier jokes. No more infinite “Thinking…”</p>
 
-            <div class="pokeInfo">
-              <h2 id="pokeName">No encounter yet</h2>
-              <div class="metaRow">
-                <div class="tag" id="pokeRarity">Rarity: -</div>
-                <div class="tag" id="pokeLevel">Level: -</div>
-                <div class="tag" id="pokeBonus">Reward: -</div>
-                <div class="tag" id="pokeShiny">Shiny: -</div>
-              </div>
-              <div class="tag" id="pokeTip">Tip: Click Catch a Pokémon to spawn one.</div>
+          <div id="ai-output" class="output muted">Tap a button 👇</div>
 
-              <div class="selectRow" style="margin-top:12px;">
-                <div class="tag" id="modeTag">Mode: Tap this tag to use Catch Spray.</div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-                  <label class="tag" for="ballSelect">Use:</label>
-                  <select id="ballSelect"></select>
-                </div>
-              </div>
-            </div>
+          <div class="actions">
+            <button id="btn-sweet" class="btn-sweet" onclick="getAI('sweet')">Sweet Message</button>
+            <button id="btn-joke" class="btn-joke" onclick="getAI('joke')">Funny Joke</button>
+            <button id="btn-catch" class="btn-catch" onclick="fakeCatch()">Catch a Pokémon</button>
           </div>
 
-          <div class="screen" id="screen">Tap a button 👇</div>
-
-          <div class="btnRow">
-            <button class="btn sweet" id="sweetBtn">Sweet Message</button>
-            <button class="btn joke" id="jokeBtn">Funny Joke</button>
-            <button class="btn catch" id="catchBtn">Catch a Pokémon</button>
+          <div class="footer-note">
+            If AI fails, it won’t freeze — it will show an error and you can retry.
           </div>
         </div>
 
+        <!-- RIGHT: simple “shop/extra” panel (you can replace with your Poké Mart later) -->
         <div class="panel">
-          <div class="shopTop">
-            <div class="shopTitle">
-              Poké Mart
-              <span class="saleBadge" id="saleBadge"></span>
+          <h2>Quick Extras</h2>
+          <p>Simple clean card list. Replace this with your Poké Mart UI anytime.</p>
+
+          <div class="list">
+            <div class="cardrow">
+              <div class="left">
+                <strong>Idea: Daily Message</strong>
+                <span>One AI message per day, saved locally</span>
+              </div>
+              <button class="smallbtn" onclick="alert('Later we can add daily mode 👀')">Enable</button>
             </div>
-            <div class="tag" id="invTag">Inventory: -</div>
+
+            <div class="cardrow">
+              <div class="left">
+                <strong>Idea: Streak System</strong>
+                <span>Each click increases streak + better jokes</span>
+              </div>
+              <button class="smallbtn" onclick="alert('We can add streak + localStorage')">Enable</button>
+            </div>
+
+            <div class="cardrow">
+              <div class="left">
+                <strong>Idea: Typing Animation</strong>
+                <span>Makes responses feel “alive”</span>
+              </div>
+              <button class="smallbtn" onclick="alert('We can add typing animation next')">Enable</button>
+            </div>
+
+            <div class="cardrow">
+              <div class="left">
+                <strong>Idea: Sound Toggle</strong>
+                <span>Cute click sounds (optional)</span>
+              </div>
+              <button class="smallbtn" onclick="alert('We can add sound effects')">Enable</button>
+            </div>
           </div>
-          <div class="shopGrid" id="shopGrid"></div>
-          <div class="tag" style="margin-top:10px;">
-            Lucky Charm boosts catch rate. Shiny Charm boosts shiny odds.
-            Mega Bracelet plus Mega Stone unlock Mega mode in battle.
-          </div>
         </div>
       </div>
 
-      <div class="footer">Made by Pawan</div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">OK</div>
-
-  <!-- Pokédex Modal -->
-  <div class="modalBack" id="dexBack">
-    <div class="modal">
-      <div class="modalTop">
-        <div class="modalTitle">Pokédex</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <span class="pill" id="dexCount">Caught: 0</span>
-          <button class="mini" id="dexClose">Close</button>
-        </div>
-      </div>
-      <div class="tag" id="dexHint" style="margin-bottom:10px;">Tap a Pokémon to preview it.</div>
-      <div class="dexGrid" id="dexGrid"></div>
-    </div>
-  </div>
-
-  <!-- PC Modal -->
-  <div class="modalBack" id="pcBack">
-    <div class="modal">
-      <div class="modalTop">
-        <div class="modalTitle">PC Storage and Party</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <span class="pill" id="pcPartyInfo">Party: 0/6</span>
-          <button class="mini" id="pcClose">Close</button>
-        </div>
-      </div>
-
-      <div class="tag" style="margin-bottom:10px;">
-        Click a Pokémon in storage to add or remove it from party. Party max is 6.
-      </div>
-
-      <div class="partyRow" id="partyRow"></div>
-
-      <div class="tag" id="pcHint" style="margin-bottom:10px;">Storage</div>
-      <div class="dexGrid" id="pcGrid"></div>
-    </div>
-  </div>
-
-  <!-- Battle Modal -->
-  <div class="modalBack" id="battleBack">
-    <div class="modal">
-      <div class="modalTop">
-        <div class="modalTitle">Battle Arena</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <span class="pill" id="battleInfo">Ready</span>
-          <button class="mini" id="battleClose">Close</button>
-        </div>
-      </div>
-
-      <div class="tag" style="margin-bottom:10px;">
-        Real moves, type matchups, and status effects. Winning gives coins.
-      </div>
-
-      <div class="battleGrid">
-        <div class="battleCard">
-          <div class="tag" id="youName">You: -</div>
-          <img id="youImg" class="dexImg" alt="you pokemon" />
-          <div class="metaRow">
-            <div class="tag" id="youTypeTag">Type: -</div>
-            <div class="tag" id="youMegaTag">Mega: Off</div>
-            <div class="tag" id="youStatusTag">Status: None</div>
-          </div>
-          <div class="tag" id="youStats">HP: -</div>
-          <div class="hpbar"><div id="youHPFill" class="hpfill"></div></div>
-        </div>
-
-        <div class="battleCard">
-          <div class="tag" id="foeName">Foe: -</div>
-          <img id="foeImg" class="dexImg" alt="foe pokemon" />
-          <div class="metaRow">
-            <div class="tag" id="foeTypeTag">Type: -</div>
-            <div class="tag" id="foeRarity">Rarity: -</div>
-            <div class="tag" id="foeStatusTag">Status: None</div>
-          </div>
-          <div class="tag" id="foeStats">HP: -</div>
-          <div class="hpbar"><div id="foeHPFill" class="hpfill"></div></div>
-        </div>
-      </div>
-
-      <div class="battleActions">
-        <button class="actionBtn" id="startBattleBtn">Start Battle</button>
-        <button class="actionBtn" id="potionBtn" disabled>Use Potion</button>
-        <button class="actionBtn" id="megaBtn" disabled>Mega Evolve</button>
-      </div>
-
-      <div class="moveGrid" id="moveGrid"></div>
-
-      <div class="tag" id="battleLog" style="margin-top:12px;">Battle log appears here.</div>
     </div>
   </div>
 
   <script>
-    // =========================================================
-    // Messages (no em dashes)
-    // =========================================================
-    const sweetMessages = [
-      "You have a calm vibe that makes everything feel easier.",
-      "You make the room feel warmer just by being there.",
-      "You are cute in a way that feels effortless.",
-      "You have the kind of laugh that fixes a bad day.",
-      "You are honestly so easy to talk to.",
-      "You make small moments feel like a highlight.",
-      "You have a sweet personality and it shows.",
-      "You are the type of person people feel safe around.",
-      "You are pretty and funny. That combo is unfair.",
-      "You deserve good things. Like constantly.",
-      "Your smile is a whole power up.",
-      "You make the vibe better without trying.",
-      "You are the kind of person I would brag about.",
-      "You are a walking comfort zone.",
-      "You are a win. Like actually.",
-      "You are cute, but also cool, which is dangerous.",
-      "You have main character energy and you know it.",
-      "You make normal days feel less boring.",
-      "You are the best kind of distraction.",
-      "You have a soft heart and a strong mind.",
-      "You are the type to be remembered.",
-      "You are good vibes with a face card.",
-      "You make people want to be nicer.",
-      "You are the reason the group chat is fun.",
-      "You are adorable and it is not even close.",
-      "You are the kind of person I trust.",
-      "You make effort look easy.",
-      "You are cute enough to cause lag.",
-      "Your presence feels like a recharge.",
-      "You are the perfect mix of sweet and savage.",
-      "You have the kind of confidence that looks natural.",
-      "You are a walking highlight reel.",
-      "You make things feel less heavy.",
-      "You are funny without trying too hard.",
-      "You are the best vibe in the room.",
-      "You are a rare find, honestly.",
-      "You deserve flowers and a full health bar.",
-      "You are the best kind of chaos.",
-      "You are loved more than you think.",
-      "If you ever doubt yourself, just know I am team you."
+    // Local fallback messages so it never feels broken
+    const fallbackSweet = [
+      "Just so you know, you make my day better.",
+      "If I could keep one thing forever, it’d be you in my life.",
+      "You’re the calm in my chaos.",
+      "I’m grateful you exist."
     ];
 
-    const jokes = [
-      "I tried to tell a joke, but it needed better timing.",
-      "Why do programmers love dark mode? Light attracts bugs.",
-      "My brain has too many tabs open.",
-      "I pressed Ctrl Z on life. It did not undo.",
-      "I asked my computer for a joke, and it froze.",
-      "I am not lazy. I am on energy saving mode.",
-      "I put my phone on airplane mode. Still no snacks.",
-      "If life gives you lemons, add sugar and keep going.",
-      "I came, I saw, I forgot why I came.",
-      "I would tell you a UDP joke, but you might not get it.",
-      "I tried to be productive, but my bed said no.",
-      "I am not late. I am just loading.",
-      "My motivation is like WiFi. It disappears when I need it.",
-      "I tried to cook. The smoke alarm gave a performance.",
-      "I do not trip. I do surprise parkour.",
-      "I am not ignoring you. I am buffering.",
-      "I tried to be mature today. It lasted five minutes.",
-      "My schedule is like a boss fight. I keep losing.",
-      "If you need me, I will be in the kitchen looking for the snacks."
+    const fallbackJokes = [
+      "I tried to be productive, but my bed rolled a critical hit.",
+      "My brain has two modes: loading… and low battery.",
+      "I’m not lazy, I’m on energy-saving mode.",
+      "I’d tell you a joke about Wi-Fi, but it’s probably not going to connect."
     ];
 
-    // =========================================================
-    // Typewriter
-    // =========================================================
-    const screen = document.getElementById("screen");
-    let typing = false;
-    function setTypingUI(){
-      screen.innerHTML = `<div><span id="typed"></span><span class="cursor">|</span></div>`;
-      return document.getElementById("typed");
-    }
-    function typeText(text){
-      if (typing) return;
-      typing = true;
-      const typed = setTypingUI();
-      let i = 0;
-      const interval = setInterval(() => {
-        typed.textContent += text.charAt(i);
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-          typing = false;
-        }
-      }, 16);
-    }
     function pick(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
 
-    // =========================================================
-    // Hearts
-    // =========================================================
-    const canvas = document.getElementById("hearts");
-    const ctx = canvas.getContext("2d");
-    let W, H, hearts = [];
-    function resize(){
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
+    async function getAI(type) {
+      const output = document.getElementById("ai-output");
+      const sweetBtn = document.getElementById("btn-sweet");
+      const jokeBtn  = document.getElementById("btn-joke");
 
-    function drawHeart(x, y, size, color, rot){
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(rot);
-      ctx.scale(size, size);
-      ctx.beginPath();
-      ctx.moveTo(0, 0.3);
-      ctx.bezierCurveTo(-0.5, -0.2, -0.7, 0.35, 0, 0.85);
-      ctx.bezierCurveTo(0.7, 0.35, 0.5, -0.2, 0, 0.3);
-      ctx.closePath();
-      ctx.fillStyle = color;
-      ctx.fill();
-      ctx.restore();
-    }
+      // Disable buttons while loading to prevent spam + overlapping requests
+      sweetBtn.disabled = true;
+      jokeBtn.disabled = true;
 
-    function popHearts(intensity = 18){
-      const colors = ["#ff4d7d","#ff2f6e","#fb7185","#f472b6","#ffffff"];
-      for(let i=0;i<intensity;i++){
-        hearts.push({
-          x: W/2 + (Math.random()*240 - 120),
-          y: 190 + (Math.random()*60 - 30),
-          vx: (Math.random()*4 - 2),
-          vy: (Math.random()*-7 - 2),
-          g: 0.16 + Math.random()*0.06,
-          s: 10 + Math.random()*12,
-          c: colors[Math.floor(Math.random()*colors.length)],
-          r: (Math.random()*0.8 - 0.4),
-          rot: Math.random()*Math.PI,
-          life: 170 + Math.random()*60
+      output.classList.add("muted");
+      output.textContent = "Thinking...";
+
+      // Abort fetch if it takes too long (prevents infinite “Thinking…”)
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 9000); // 9s timeout
+
+      try {
+        const res = await fetch(`/.netlify/functions/generate?type=${encodeURIComponent(type)}`, {
+          method: "GET",
+          signal: controller.signal
         });
-      }
-    }
 
-    function animateHearts(){
-      ctx.clearRect(0,0,W,H);
-      hearts = hearts.filter(p => p.life > 0);
-      for(const p of hearts){
-        p.vy += p.g;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rot += p.r * 0.02;
-        p.life -= 1;
-        const alpha = Math.max(0, Math.min(1, p.life / 220));
-        ctx.globalAlpha = alpha;
-        drawHeart(p.x, p.y, p.s / 40, p.c, p.rot);
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(animateHearts);
-    }
-    animateHearts();
+        if (!res.ok) throw new Error("Server error");
 
-    // =========================================================
-    // Toast
-    // =========================================================
-    const toast = document.getElementById("toast");
-    let toastTimer;
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 1200);
-    }
+        const data = await res.json();
+        const text = (data && data.text) ? String(data.text) : "";
 
-    // =========================================================
-    // Storage helpers
-    // =========================================================
-    function loadJSON(key, fallback){
-      try{ const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
-      catch{ return fallback; }
-    }
-    function saveJSON(key, val){ localStorage.setItem(key, JSON.stringify(val)); }
-    function loadNum(key, fallback){
-      const v = Number(localStorage.getItem(key));
-      return Number.isFinite(v) ? v : fallback;
-    }
-    function saveNum(key, val){ localStorage.setItem(key, String(val)); }
+        output.classList.remove("muted");
+        output.textContent = text || (type === "joke" ? pick(fallbackJokes) : pick(fallbackSweet));
 
-    // =========================================================
-    // Sale
-    // =========================================================
-    function nowMs(){ return Date.now(); }
-    let sale = loadJSON("sale", null);
-    function saleActive(){ return sale && sale.end > nowMs(); }
-    function salePrice(base){
-      if (!saleActive()) return base;
-      return Math.max(1, Math.round(base * (1 - sale.pct/100)));
-    }
-    function maybeStartSale(){
-      if (saleActive()) return;
-      if (Math.random() > 0.18) return;
-      const pct = 20 + Math.floor(Math.random() * 31);
-      sale = { pct, end: nowMs() + 2 * 60 * 1000 };
-      saveJSON("sale", sale);
-      showToast(`Sale ${pct}% off`);
-    }
-
-    // =========================================================
-    // Game state
-    // =========================================================
-    let coins = loadNum("coins", 100);
-    let caught = loadNum("caught", 0);
-    let streak = loadNum("streak", 0);
-
-    let pokedexIds = new Set(loadJSON("pokedexIds", []));
-    let caughtData = loadJSON("caughtData", {});
-    let party = loadJSON("party", []);
-
-    let inventory = loadJSON("inventory", {
-      poke:5, great:2, ultra:1, master:0, premier:0, dusk:0, quick:0, timer:0, dive:0, net:0, nest:0, repeat:0, safari:0, sport:0,
-      potion:2, catchspray:0, luckycharm:0, sharm:0, megabracelet:0, megastone:0
-    });
-
-    // =========================================================
-    // Definitions
-    // =========================================================
-    const ballDefs = [
-      { id:"poke",    name:"Poké Ball",    cost: 8,   base:0.35, note:"Standard ball." },
-      { id:"great",   name:"Great Ball",   cost: 18,  base:0.48, note:"Better catch rate." },
-      { id:"ultra",   name:"Ultra Ball",   cost: 35,  base:0.62, note:"High performance." },
-      { id:"master",  name:"Master Ball",  cost: 250, base:1.00, note:"100% catch rate." },
-      { id:"premier", name:"Premier Ball", cost: 20,  base:0.38, note:"Special occasion." },
-      { id:"dusk",    name:"Dusk Ball",    cost: 22,  base:0.42, note:"Better at night." },
-      { id:"quick",   name:"Quick Ball",   cost: 24,  base:0.40, note:"Best first throw." },
-      { id:"timer",   name:"Timer Ball",   cost: 20,  base:0.36, note:"Better after fails." },
-      { id:"dive",    name:"Dive Ball",    cost: 18,  base:0.40, note:"Better for Water." },
-      { id:"net",     name:"Net Ball",     cost: 18,  base:0.40, note:"Better for Water or Bug." },
-      { id:"nest",    name:"Nest Ball",    cost: 16,  base:0.38, note:"Better for low level." },
-      { id:"repeat",  name:"Repeat Ball",  cost: 16,  base:0.38, note:"Better if already caught." },
-      { id:"safari",  name:"Safari Ball",  cost: 14,  base:0.36, note:"Safari vibes." },
-      { id:"sport",   name:"Sport Ball",   cost: 14,  base:0.36, note:"Bug contest vibes." }
-    ];
-
-    const itemDefs = [
-      { id:"potion",      name:"Potion",        cost: 18, note:"Heals your active battle Pokémon.", kind:"item" },
-      { id:"catchspray",  name:"Catch Spray",   cost: 28, note:"Next throw gets a big catch boost.", kind:"item" },
-      { id:"luckycharm",  name:"Lucky Charm",   cost: 120, note:"Passive catch boost always on.", kind:"key" },
-      { id:"sharm",       name:"Shiny Charm",   cost: 160, note:"Boosts shiny odds.", kind:"key" },
-      { id:"megabracelet",name:"Mega Bracelet", cost: 220, note:"Allows Mega mode in battle.", kind:"key" },
-      { id:"megastone",   name:"Mega Stone",    cost: 140, note:"Required for Mega mode.", kind:"key" }
-    ];
-
-    const rarityRoll = [
-      { r:"common",    w: 60 },
-      { r:"uncommon",  w: 25 },
-      { r:"rare",      w: 11 },
-      { r:"epic",      w: 3.5 },
-      { r:"legendary", w: 0.5 }
-    ];
-
-    function titleCase(s){ return String(s).split("-").map(x => x ? (x[0].toUpperCase() + x.slice(1)) : x).join(" "); }
-    function weightedPick(items){
-      const total = items.reduce((a,b)=>a+b.w,0);
-      let x = Math.random() * total;
-      for(const it of items){ x -= it.w; if (x <= 0) return it.r; }
-      return items[0].r;
-    }
-    function rarityClass(r){
-      if (r === "common") return "rar-common";
-      if (r === "uncommon") return "rar-uncommon";
-      if (r === "rare") return "rar-rare";
-      if (r === "epic") return "rar-epic";
-      return "rar-legendary";
-    }
-    function coinRewardFor(r){
-      if (r === "common") return 8 + Math.floor(Math.random()*6);
-      if (r === "uncommon") return 15 + Math.floor(Math.random()*10);
-      if (r === "rare") return 30 + Math.floor(Math.random()*20);
-      if (r === "epic") return 60 + Math.floor(Math.random()*40);
-      return 120 + Math.floor(Math.random()*80);
-    }
-    function rarityDifficulty(r){
-      if (r === "common") return 1.00;
-      if (r === "uncommon") return 0.88;
-      if (r === "rare") return 0.72;
-      if (r === "epic") return 0.58;
-      return 0.45;
-    }
-    function isNight(){
-      const hour = new Date().getHours();
-      return (hour >= 19 || hour <= 6);
-    }
-
-    // =========================================================
-    // Type chart (Gen 6+ style)
-    // =========================================================
-    const TYPE_CHART = {
-      normal:   { double:[], half:["rock","steel"], zero:["ghost"] },
-      fire:     { double:["grass","ice","bug","steel"], half:["fire","water","rock","dragon"], zero:[] },
-      water:    { double:["fire","ground","rock"], half:["water","grass","dragon"], zero:[] },
-      electric: { double:["water","flying"], half:["electric","grass","dragon"], zero:["ground"] },
-      grass:    { double:["water","ground","rock"], half:["fire","grass","poison","flying","bug","dragon","steel"], zero:[] },
-      ice:      { double:["grass","ground","flying","dragon"], half:["fire","water","ice","steel"], zero:[] },
-      fighting: { double:["normal","ice","rock","dark","steel"], half:["poison","flying","psychic","bug","fairy"], zero:["ghost"] },
-      poison:   { double:["grass","fairy"], half:["poison","ground","rock","ghost"], zero:["steel"] },
-      ground:   { double:["fire","electric","poison","rock","steel"], half:["grass","bug"], zero:["flying"] },
-      flying:   { double:["grass","fighting","bug"], half:["electric","rock","steel"], zero:[] },
-      psychic:  { double:["fighting","poison"], half:["psychic","steel"], zero:["dark"] },
-      bug:      { double:["grass","psychic","dark"], half:["fire","fighting","poison","flying","ghost","steel","fairy"], zero:[] },
-      rock:     { double:["fire","ice","flying","bug"], half:["fighting","ground","steel"], zero:[] },
-      ghost:    { double:["psychic","ghost"], half:["dark"], zero:["normal"] },
-      dragon:   { double:["dragon"], half:["steel"], zero:["fairy"] },
-      dark:     { double:["psychic","ghost"], half:["fighting","dark","fairy"], zero:[] },
-      steel:    { double:["ice","rock","fairy"], half:["fire","water","electric","steel"], zero:[] },
-      fairy:    { double:["fighting","dragon","dark"], half:["fire","poison","steel"], zero:[] }
-    };
-
-    function typeMultiplier(moveType, defenderTypes){
-      const chart = TYPE_CHART[moveType];
-      if (!chart) return 1;
-      let mult = 1;
-      for (const dt of defenderTypes){
-        if (chart.zero.includes(dt)) return 0;
-        if (chart.double.includes(dt)) mult *= 2;
-        if (chart.half.includes(dt)) mult *= 0.5;
-      }
-      return mult;
-    }
-
-    // =========================================================
-    // UI refs
-    // =========================================================
-    const mainCard = document.getElementById("mainCard");
-
-    const coinsPill = document.getElementById("coinsPill");
-    const ballPill = document.getElementById("ballPill");
-    const caughtPill = document.getElementById("caughtPill");
-    const streakPill = document.getElementById("streakPill");
-
-    const saleBadge = document.getElementById("saleBadge");
-    const invTag = document.getElementById("invTag");
-    const shopGrid = document.getElementById("shopGrid");
-
-    const ballSelect = document.getElementById("ballSelect");
-    const modeTag = document.getElementById("modeTag");
-
-    const pokeCard = document.getElementById("pokeCard");
-    const pokeImg = document.getElementById("pokeImg");
-    const pokeName = document.getElementById("pokeName");
-    const pokeRarity = document.getElementById("pokeRarity");
-    const pokeLevel = document.getElementById("pokeLevel");
-    const pokeBonus = document.getElementById("pokeBonus");
-    const pokeTip = document.getElementById("pokeTip");
-    const pokeShiny = document.getElementById("pokeShiny");
-    const shinyBadge = pokeCard.querySelector(".shinyBadge");
-
-    const sweetBtn = document.getElementById("sweetBtn");
-    const jokeBtn = document.getElementById("jokeBtn");
-    const catchBtn = document.getElementById("catchBtn");
-
-    const themeBtn = document.getElementById("themeBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const pokedexBtn = document.getElementById("pokedexBtn");
-    const pcBtn = document.getElementById("pcBtn");
-    const battleBtn = document.getElementById("battleBtn");
-
-    // modals
-    const dexBack = document.getElementById("dexBack");
-    const dexGrid = document.getElementById("dexGrid");
-    const dexCount = document.getElementById("dexCount");
-    const dexHint = document.getElementById("dexHint");
-    const dexClose = document.getElementById("dexClose");
-
-    const pcBack = document.getElementById("pcBack");
-    const pcGrid = document.getElementById("pcGrid");
-    const partyRow = document.getElementById("partyRow");
-    const pcClose = document.getElementById("pcClose");
-    const pcPartyInfo = document.getElementById("pcPartyInfo");
-
-    const battleBack = document.getElementById("battleBack");
-    const battleClose = document.getElementById("battleClose");
-    const battleInfo = document.getElementById("battleInfo");
-    const battleLog = document.getElementById("battleLog");
-    const moveGrid = document.getElementById("moveGrid");
-
-    const startBattleBtn = document.getElementById("startBattleBtn");
-    const potionBtn = document.getElementById("potionBtn");
-    const megaBtn = document.getElementById("megaBtn");
-
-    const youImg = document.getElementById("youImg");
-    const foeImg = document.getElementById("foeImg");
-    const youName = document.getElementById("youName");
-    const foeName = document.getElementById("foeName");
-    const youStats = document.getElementById("youStats");
-    const foeStats = document.getElementById("foeStats");
-    const youHPFill = document.getElementById("youHPFill");
-    const foeHPFill = document.getElementById("foeHPFill");
-    const youMegaTag = document.getElementById("youMegaTag");
-    const youTypeTag = document.getElementById("youTypeTag");
-    const foeTypeTag = document.getElementById("foeTypeTag");
-    const foeRarity = document.getElementById("foeRarity");
-    const youStatusTag = document.getElementById("youStatusTag");
-    const foeStatusTag = document.getElementById("foeStatusTag");
-
-    // =========================================================
-    // Coins bonus on Sweet/Joke
-    // =========================================================
-    function chanceCoinDrop(){
-      const base = 0.30 + Math.min(0.20, streak * 0.02);
-      if (Math.random() <= base){
-        coins += 5;
-        saveNum("coins", coins);
-        showToast("+5 coins");
-      }
-    }
-    function updateStreak(isWin){
-      if (isWin) streak += 1;
-      else streak = 0;
-      saveNum("streak", streak);
-    }
-
-    // =========================================================
-    // Ball icons
-    // =========================================================
-    function ballSVG(type){
-      const colors = {
-        poke:    ["#ef4444","#ffffff","#111827"],
-        great:   ["#2563eb","#ffffff","#111827"],
-        ultra:   ["#111827","#fbbf24","#111827"],
-        master:  ["#7c3aed","#ffffff","#fbbf24"],
-        premier: ["#ffffff","#ffffff","#111827"],
-        dusk:    ["#111827","#22c55e","#111827"],
-        quick:   ["#f59e0b","#ffffff","#111827"],
-        timer:   ["#dc2626","#fbbf24","#111827"],
-        dive:    ["#0ea5e9","#ffffff","#111827"],
-        net:     ["#22c55e","#0ea5e9","#111827"],
-        nest:    ["#a16207","#ffffff","#111827"],
-        repeat:  ["#ec4899","#ffffff","#111827"],
-        safari:  ["#16a34a","#fbbf24","#111827"],
-        sport:   ["#dc2626","#ffffff","#111827"]
-      };
-      const c = colors[type] || colors.poke;
-      const top = c[0], bottom = c[1], line = c[2];
-
-      return `
-        <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
-          <defs><clipPath id="clip"><circle cx="32" cy="32" r="26"></circle></clipPath></defs>
-          <circle cx="32" cy="32" r="26" fill="${bottom}" stroke="${line}" stroke-width="4"></circle>
-          <g clip-path="url(#clip)"><rect x="0" y="0" width="64" height="32" fill="${top}"></rect></g>
-          <rect x="6" y="30" width="52" height="4" fill="${line}"></rect>
-          <circle cx="32" cy="32" r="9" fill="${bottom}" stroke="${line}" stroke-width="4"></circle>
-          <circle cx="32" cy="32" r="4" fill="${top}"></circle>
-        </svg>
-      `;
-    }
-
-    // =========================================================
-    // Encounter state
-    // =========================================================
-    let encounter = null;
-    let attempts = 0;
-    let firstThrow = true;
-    let sprayArmed = false;
-
-    // =========================================================
-    // PokeAPI
-    // =========================================================
-    const MAX_POKE_ID = 1025;
-
-    async function fetchJSON(url){
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Fetch failed");
-      return await res.json();
-    }
-
-    function artURL(id){
-      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
-    }
-    function spriteURL(id){
-      return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
-    }
-
-    function artworkFromPokemon(p){
-      const art = p?.sprites?.other?.["official-artwork"]?.front_default;
-      const dream = p?.sprites?.other?.dream_world?.front_default;
-      const sprite = p?.sprites?.front_default;
-      return art || dream || sprite || "";
-    }
-    function pickTypes(p){
-      return (p.types || []).map(t => t?.type?.name).filter(Boolean);
-    }
-    function getStat(p, statName){
-      const obj = (p.stats || []).find(s => s?.stat?.name === statName);
-      return Number(obj?.base_stat || 10);
-    }
-    function hasType(p, typeName){
-      return (p.types || []).some(t => t?.type?.name === typeName);
-    }
-
-    async function loadRandomPokemonByRarity(targetRarity){
-      const maxTries = 25;
-
-      for(let t=0; t<maxTries; t++){
-        const id = 1 + Math.floor(Math.random() * MAX_POKE_ID);
-        const p = await fetchJSON(`https://pokeapi.co/api/v2/pokemon/${id}`);
-        const s = await fetchJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
-
-        const legendary = !!s.is_legendary || !!s.is_mythical;
-        const baseExp = Number(p.base_experience || 0);
-
-        let computed = "common";
-        if (legendary) computed = "legendary";
-        else if (baseExp >= 240) computed = "epic";
-        else if (baseExp >= 170) computed = "rare";
-        else if (baseExp >= 110) computed = "uncommon";
-        else computed = "common";
-
-        if (targetRarity === "legendary" && computed !== "legendary") continue;
-        if (computed === targetRarity) return { pokemon: p, rarity: computed };
-      }
-
-      const id = 1 + Math.floor(Math.random() * MAX_POKE_ID);
-      const p = await fetchJSON(`https://pokeapi.co/api/v2/pokemon/${id}`);
-      const s = await fetchJSON(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
-      const legendary = !!s.is_legendary || !!s.is_mythical;
-      const baseExp = Number(p.base_experience || 0);
-      let computed = legendary ? "legendary" : (baseExp >= 240 ? "epic" : baseExp >= 170 ? "rare" : baseExp >= 110 ? "uncommon" : "common");
-      return { pokemon: p, rarity: computed };
-    }
-
-    // =========================================================
-    // Shiny odds
-    // =========================================================
-    function rollShiny(){
-      let denom = 128;
-      if ((inventory.sharm || 0) > 0) denom = 64;
-      if (streak >= 10) denom = Math.max(32, denom);
-      return (Math.floor(Math.random() * denom) === 0);
-    }
-
-    // =========================================================
-    // Catch chance
-    // =========================================================
-    function calcCatchChance(ballId, rarity, level, pokemonObj){
-      const def = ballDefs.find(b => b.id === ballId) || ballDefs[0];
-      let chance = def.base;
-
-      chance *= rarityDifficulty(rarity);
-      chance *= (1.0 - Math.min(0.35, (level-1) / 200));
-
-      if (ballId === "quick" && firstThrow) chance += 0.28;
-      if (ballId === "quick" && !firstThrow) chance -= 0.06;
-
-      if (ballId === "timer") chance += Math.min(0.28, attempts * 0.06);
-      if (ballId === "dusk" && isNight()) chance += 0.18;
-      if (ballId === "dive" && hasType(pokemonObj, "water")) chance += 0.16;
-      if (ballId === "net" && (hasType(pokemonObj, "water") || hasType(pokemonObj, "bug"))) chance += 0.16;
-
-      if (ballId === "nest" && level <= 15) chance += 0.18;
-      if (ballId === "nest" && level <= 5) chance += 0.24;
-
-      const speciesId = encounter?.id;
-      if (ballId === "repeat" && speciesId && pokedexIds.has(speciesId)) chance += 0.20;
-
-      if (ballId === "safari") chance += 0.06;
-      if (ballId === "sport" && hasType(pokemonObj, "bug")) chance += 0.12;
-      if (ballId === "premier") chance += 0.05;
-
-      if ((inventory.luckycharm || 0) > 0) chance += 0.05;
-      if (sprayArmed) chance += 0.15;
-
-      if (ballId === "master") chance = 1.0;
-
-      chance = Math.max(0.05, Math.min(0.98, chance));
-      return chance;
-    }
-
-    // =========================================================
-    // UI helpers
-    // =========================================================
-    function updateSaleUI(){
-      if (!saleActive()){
-        saleBadge.style.display = "none";
-        return;
-      }
-      const sec = Math.max(0, Math.floor((sale.end - Date.now()) / 1000));
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      saleBadge.style.display = "inline-flex";
-      saleBadge.textContent = `Sale ${sale.pct}% off (${m}:${String(s).padStart(2,"0")})`;
-    }
-
-    function fmtInventoryShort(){
-      const parts = [];
-      for(const b of ballDefs){
-        const n = Number(inventory[b.id] || 0);
-        if (n > 0) parts.push(`${b.name} x${n}`);
-      }
-      const keyParts = [];
-      if ((inventory.luckycharm || 0) > 0) keyParts.push("Lucky Charm");
-      if ((inventory.sharm || 0) > 0) keyParts.push("Shiny Charm");
-      if ((inventory.megabracelet || 0) > 0) keyParts.push("Mega Bracelet");
-      if ((inventory.megastone || 0) > 0) keyParts.push("Mega Stone");
-      const keys = keyParts.length ? ` | Items: ${keyParts.join(", ")}` : "";
-      return (parts.length ? parts.slice(0,3).join(" | ") : "No balls") + keys;
-    }
-
-    function updateHUD(){
-      coinsPill.textContent = `🪙 Coins: ${coins}`;
-      caughtPill.textContent = `📘 Caught: ${caught}`;
-      streakPill.textContent = `🔥 Streak: ${streak}`;
-      invTag.textContent = `Inventory: ${fmtInventoryShort()}`;
-
-      const selected = ballSelect.value || "poke";
-      const def = ballDefs.find(b => b.id === selected) || ballDefs[0];
-      ballPill.textContent = `⚪ Ball: ${def.name}`;
-
-      updateSaleUI();
-    }
-
-    function saveAll(){
-      saveNum("coins", coins);
-      saveNum("caught", caught);
-      saveNum("streak", streak);
-      saveJSON("pokedexIds", Array.from(pokedexIds));
-      saveJSON("caughtData", caughtData);
-      saveJSON("party", party);
-      saveJSON("inventory", inventory);
-      saveJSON("sale", saleActive() ? sale : null);
-    }
-
-    function renderBallSelect(){
-      const current = ballSelect.value || "poke";
-      ballSelect.innerHTML = "";
-      for(const b of ballDefs){
-        const opt = document.createElement("option");
-        opt.value = b.id;
-        opt.textContent = `${b.name} (x${inventory[b.id] || 0})`;
-        ballSelect.appendChild(opt);
-      }
-      ballSelect.value = [...ballSelect.options].some(o => o.value === current) ? current : "poke";
-    }
-
-    function renderShop(){
-      shopGrid.innerHTML = "";
-
-      for(const b of ballDefs){
-        const row = document.createElement("div");
-        row.className = "itemRow";
-
-        const left = document.createElement("div");
-        left.className = "itemLeft";
-
-        const icon = document.createElement("div");
-        icon.innerHTML = ballSVG(b.id);
-
-        const price = salePrice(b.cost);
-        const priceText = saleActive() ? `${price} (was ${b.cost})` : `${b.cost}`;
-
-        const text = document.createElement("div");
-        text.style.minWidth = "0";
-        text.innerHTML = `<div class="itemName">${b.name}</div><div class="itemSub">${b.note} Cost: ${priceText}</div>`;
-
-        left.appendChild(icon);
-        left.appendChild(text);
-
-        const buy = document.createElement("button");
-        buy.className = "buyBtn";
-        buy.textContent = "Buy";
-        buy.onclick = () => {
-          maybeStartSale();
-          const cost = salePrice(b.cost);
-          if (coins < cost){
-            showToast("Not enough coins");
-            typeText("You need more coins. Catch something and come back.");
-            updateStreak(false);
-            updateHUD();
-            return;
-          }
-          coins -= cost;
-          inventory[b.id] = (inventory[b.id] || 0) + 1;
-          saveAll();
-          renderBallSelect();
-          renderShop();
-          updateHUD();
-          showToast(`Bought ${b.name}`);
-          popHearts(12);
-          updateStreak(true);
-        };
-
-        row.appendChild(left);
-        row.appendChild(buy);
-        shopGrid.appendChild(row);
-      }
-
-      for(const it of itemDefs){
-        const row = document.createElement("div");
-        row.className = "itemRow";
-
-        const left = document.createElement("div");
-        left.className = "itemLeft";
-
-        const icon = document.createElement("div");
-        icon.innerHTML = `<div class="tag">${it.kind.toUpperCase()}</div>`;
-
-        const price = salePrice(it.cost);
-        const priceText = saleActive() ? `${price} (was ${it.cost})` : `${it.cost}`;
-
-        const text = document.createElement("div");
-        text.style.minWidth = "0";
-        text.innerHTML = `<div class="itemName">${it.name}</div><div class="itemSub">${it.note} Cost: ${priceText}</div>`;
-
-        left.appendChild(icon);
-        left.appendChild(text);
-
-        const buy = document.createElement("button");
-        buy.className = "buyBtn";
-        buy.textContent = "Buy";
-        buy.onclick = () => {
-          maybeStartSale();
-          const cost = salePrice(it.cost);
-          if (coins < cost){
-            showToast("Not enough coins");
-            typeText("Not enough coins. You are on a budget arc.");
-            updateStreak(false);
-            updateHUD();
-            return;
-          }
-          coins -= cost;
-          inventory[it.id] = (inventory[it.id] || 0) + 1;
-          saveAll();
-          renderBallSelect();
-          renderShop();
-          updateHUD();
-          showToast(`Bought ${it.name}`);
-          popHearts(10);
-          updateStreak(true);
-        };
-
-        row.appendChild(left);
-        row.appendChild(buy);
-        shopGrid.appendChild(row);
-      }
-    }
-
-    // =========================================================
-    // Encounter UI
-    // =========================================================
-    function clearEncounterUI(){
-      pokeImg.src = "";
-      pokeName.textContent = "No encounter yet";
-      pokeRarity.textContent = "Rarity: -";
-      pokeRarity.className = "tag";
-      pokeLevel.textContent = "Level: -";
-      pokeBonus.textContent = "Reward: -";
-      pokeShiny.textContent = "Shiny: -";
-      pokeTip.textContent = "Tip: Click Catch a Pokémon to spawn one.";
-      pokeCard.classList.remove("legendary","epic","shiny");
-      shinyBadge.style.display = "none";
-    }
-
-    function setEncounterUI(e){
-      pokeImg.src = e.art;
-      pokeName.textContent = titleCase(e.name);
-
-      pokeRarity.textContent = `Rarity: ${titleCase(e.rarity)}`;
-      pokeRarity.className = `tag ${rarityClass(e.rarity)}`;
-
-      pokeLevel.textContent = `Level: ${e.level}`;
-      pokeBonus.textContent = `Reward: ${e.reward} coins`;
-      pokeShiny.textContent = `Shiny: ${e.shiny ? "Yes" : "No"}`;
-
-      pokeTip.textContent = sprayArmed ? "Catch Spray active. Throw now for big boost." : "Spawned. Click Catch a Pokémon again to throw a ball.";
-
-      pokeCard.classList.remove("legendary","epic","shiny");
-      if (e.rarity === "legendary") pokeCard.classList.add("legendary");
-      if (e.rarity === "epic") pokeCard.classList.add("epic");
-      if (e.shiny) pokeCard.classList.add("shiny");
-
-      shinyBadge.style.display = e.shiny ? "inline-flex" : "none";
-    }
-
-    // =========================================================
-    // Catch flow
-    // =========================================================
-    async function spawnPokemon(){
-      typeText("Searching tall grass...");
-      showToast("Spawning...");
-      maybeStartSale();
-
-      const target = weightedPick(rarityRoll);
-
-      try{
-        const data = await loadRandomPokemonByRarity(target);
-        const p = data.pokemon;
-        const rarity = data.rarity;
-
-        const level = 1 + Math.floor(Math.random() * 60);
-        const reward = coinRewardFor(rarity);
-
-        const shiny = rollShiny();
-        const art = artworkFromPokemon(p);
-
-        encounter = {
-          id: p.id,
-          name: p.name,
-          rarity,
-          level,
-          reward,
-          shiny,
-          art,
-          sprite: p.sprites?.front_default || spriteURL(p.id),
-          types: pickTypes(p),
-          stats: {
-            hp: getStat(p, "hp"),
-            atk: getStat(p, "attack"),
-            def: getStat(p, "defense"),
-            spd: getStat(p, "speed")
-          },
-          pokemonObj: p
-        };
-
-        attempts = 0;
-        firstThrow = true;
-
-        setEncounterUI(encounter);
-
-        const big = (rarity === "legendary" || rarity === "epic" || shiny);
-        if (big){
-          mainCard.classList.add("shake");
-          setTimeout(() => mainCard.classList.remove("shake"), 500);
-        }
-
-        const label = shiny ? "SHINY" : (rarity === "legendary" ? "LEGENDARY" : (rarity === "epic" ? "EPIC" : ""));
-        typeText(`A wild ${titleCase(encounter.name)} appeared${label ? " (" + label + ")" : ""}!`);
-        showToast(label || "Wild!");
-        popHearts(rarity === "legendary" ? 85 : rarity === "epic" ? 55 : shiny ? 45 : 20);
-
-      }catch(err){
-        typeText("Could not load Pokémon data. This needs internet when hosted.");
-        showToast("Network issue");
-        updateStreak(false);
-      }
-    }
-
-    function attemptCatch(){
-      if (!encounter){ spawnPokemon(); return; }
-
-      const ballId = ballSelect.value || "poke";
-      const ballCount = Number(inventory[ballId] || 0);
-      const ballName = (ballDefs.find(b => b.id === ballId) || ballDefs[0]).name;
-
-      if (ballCount <= 0){
-        typeText(`No ${ballName} left. Buy more in the shop.`);
-        showToast("Out of balls");
-        updateStreak(false);
-        return;
-      }
-
-      inventory[ballId] = ballCount - 1;
-
-      const chance = calcCatchChance(ballId, encounter.rarity, encounter.level, encounter.pokemonObj);
-      const roll = Math.random();
-      const pct = Math.round(chance * 100);
-
-      attempts += 1;
-      firstThrow = false;
-
-      const sprayWasActive = sprayArmed;
-      if (sprayArmed) sprayArmed = false;
-
-      if (roll <= chance){
-        coins += encounter.reward;
-        caught += 1;
-
-        pokedexIds.add(encounter.id);
-
-        caughtData[String(encounter.id)] = {
-          id: encounter.id,
-          name: encounter.name,
-          sprite: encounter.sprite || spriteURL(encounter.id),
-          art: artURL(encounter.id),
-          level: encounter.level,
-          rarity: encounter.rarity,
-          shiny: encounter.shiny,
-          types: encounter.types,
-          stats: encounter.stats
-        };
-
-        if (party.length < 6 && !party.includes(encounter.id)) party.push(encounter.id);
-
-        saveAll();
-        renderBallSelect();
-        renderShop();
-        updateHUD();
-
-        typeText(`Caught ${titleCase(encounter.name)}! +${encounter.reward} coins. Catch chance was ${pct}%${sprayWasActive ? " with Catch Spray." : "."}`);
-        showToast("Caught!");
-        popHearts(encounter.rarity === "legendary" ? 95 : encounter.rarity === "epic" ? 65 : encounter.shiny ? 60 : 26);
-
-        updateStreak(true);
-
-        encounter = null;
-        clearEncounterUI();
-      } else {
-        saveAll();
-        renderBallSelect();
-        updateHUD();
-
-        typeText(`${titleCase(encounter.name)} escaped. Catch chance was ${pct}%. Try again.`);
-        showToast("Missed");
-        popHearts(10);
-        updateStreak(false);
-      }
-    }
-
-    function useCatchSpray(){
-      if ((inventory.catchspray || 0) <= 0){
-        typeText("No Catch Spray. Buy it in the shop.");
-        showToast("No spray");
-        return;
-      }
-      if (sprayArmed){
-        typeText("Catch Spray is already active.");
-        showToast("Active");
-        return;
-      }
-      inventory.catchspray -= 1;
-      sprayArmed = true;
-      saveAll();
-      renderShop();
-      updateHUD();
-      if (encounter) setEncounterUI(encounter);
-      typeText("Catch Spray active. Your next throw gets a big boost.");
-      showToast("Spray on");
-      popHearts(12);
-    }
-
-    // =========================================================
-    // Buttons
-    // =========================================================
-
-    async function getAI(type){
-      // Calls the Netlify Function (server-side) so your API key stays secret.
-      // Falls back to the built-in local lists if the function isn't available.
-      const endpoint = `/.netlify/functions/generate?type=${encodeURIComponent(type)}`;
-      try{
-        // tiny UI feedback
-        sweetBtn.disabled = true;
-        jokeBtn.disabled = true;
-        sweetBtn.style.opacity = "0.7";
-        jokeBtn.style.opacity = "0.7";
-        typeText("Thinking...");
-
-        const data = await fetchJSON(endpoint);
-        const text = (data?.text || "").trim();
-        if (text) return text;
-        throw new Error("Empty AI response");
-      }catch(e){
-        // fallback
-        return type === "joke" ? pick(jokes) : pick(sweetMessages);
-      }finally{
+      } catch (err) {
+        console.error(err);
+        output.classList.remove("muted");
+        output.textContent = (type === "joke" ? pick(fallbackJokes) : pick(fallbackSweet)) + " (fallback)";
+      } finally {
+        clearTimeout(timeout);
         sweetBtn.disabled = false;
         jokeBtn.disabled = false;
-        sweetBtn.style.opacity = "";
-        jokeBtn.style.opacity = "";
       }
     }
 
-    sweetBtn.onclick = async () => {
-      const msg = await getAI("sweet");
-      typeText(msg);
-      popHearts(14);
-      maybeStartSale();
-      chanceCoinDrop();
-      updateStreak(true);
-      saveAll();
-      renderShop();
-      updateHUD();
-    };
-
-    jokeBtn.onclick = async () => {
-      const msg = await getAI("joke");
-      typeText(msg);
-      popHearts(10);
-      maybeStartSale();
-      chanceCoinDrop();
-      updateStreak(true);
-      saveAll();
-      renderShop();
-      updateHUD();
-    };
-
-    catchBtn.onclick = () => attemptCatch();
-    // =========================================================
-    // Theme
-    // =========================================================
-    function setTheme(isDark){
-      document.body.classList.toggle("dark", isDark);
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-      showToast(isDark ? "Dark mode" : "Light mode");
+    // Placeholder catch button so your page feels alive
+    function fakeCatch(){
+      const output = document.getElementById("ai-output");
+      output.classList.remove("muted");
+      output.textContent = "You threw a Poké Ball… *shake* … *shake* … GOT IT! ✅";
     }
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") document.body.classList.add("dark");
-    themeBtn.onclick = () => setTheme(!document.body.classList.contains("dark"));
-
-    // =========================================================
-    // Dex + PC
-    // =========================================================
-    function openDex(){
-      dexGrid.innerHTML = "";
-      const list = Array.from(pokedexIds).sort((a,b)=>a-b);
-      dexCount.textContent = `Caught: ${list.length}`;
-      dexHint.textContent = list.length ? "Tap a Pokémon to preview it." : "Catch your first Pokémon and it will show here.";
-
-      for(const id of list){
-        const data = caughtData[String(id)];
-        const div = document.createElement("div");
-        div.className = "dexCard";
-
-        const img = document.createElement("img");
-        img.className = "dexImg";
-        img.src = data?.sprite || spriteURL(id);
-
-        const name = document.createElement("div");
-        name.className = "dexName";
-        const label = data?.shiny ? " ✨" : "";
-        name.textContent = `${titleCase(data?.name || ("#" + id))}${label}`;
-
-        div.appendChild(img);
-        div.appendChild(name);
-
-        div.onclick = () => {
-          pokeImg.src = data?.art || artURL(id);
-          pokeName.textContent = `Pokédex View: ${titleCase(data?.name || ("#" + id))}`;
-          pokeRarity.textContent = `Rarity: ${titleCase(data?.rarity || "caught")}`;
-          pokeRarity.className = `tag ${data?.rarity ? rarityClass(data.rarity) : ""}`;
-          pokeLevel.textContent = `Level: ${data?.level || "-"}`;
-          pokeBonus.textContent = "Reward: -";
-          pokeShiny.textContent = `Shiny: ${data?.shiny ? "Yes" : "No"}`;
-          pokeTip.textContent = "This is from your Pokédex. Go catch more.";
-          pokeCard.classList.remove("legendary","epic","shiny");
-          if (data?.rarity === "legendary") pokeCard.classList.add("legendary");
-          if (data?.rarity === "epic") pokeCard.classList.add("epic");
-          if (data?.shiny) pokeCard.classList.add("shiny");
-          shinyBadge.style.display = data?.shiny ? "inline-flex" : "none";
-          popHearts(18);
-          showToast("Pokédex");
-          closeDex();
-        };
-
-        dexGrid.appendChild(div);
-      }
-
-      dexBack.classList.add("show");
-    }
-    function closeDex(){ dexBack.classList.remove("show"); }
-
-    function renderParty(){
-      partyRow.innerHTML = "";
-      for(let i=0;i<6;i++){
-        const id = party[i];
-        const slot = document.createElement("div");
-        slot.className = "slot";
-
-        if (id){
-          const data = caughtData[String(id)];
-          slot.classList.add("slotFilled");
-          const img = document.createElement("img");
-          img.className = "dexImg";
-          img.src = data?.sprite || spriteURL(id);
-
-          const nm = document.createElement("div");
-          nm.className = "dexName";
-          nm.textContent = titleCase(data?.name || ("#" + id));
-
-          const tag = document.createElement("div");
-          tag.className = "tag";
-          tag.textContent = `Lv ${data?.level || "-"}`;
-
-          slot.appendChild(img);
-          slot.appendChild(nm);
-          slot.appendChild(tag);
-
-          slot.onclick = () => {
-            party = party.filter(x => x !== id);
-            saveAll();
-            renderParty();
-            renderPCGrid();
-            pcPartyInfo.textContent = `Party: ${party.length}/6`;
-            showToast("Removed");
-          };
-        } else {
-          const txt = document.createElement("div");
-          txt.className = "dexName";
-          txt.textContent = "Empty";
-          slot.appendChild(txt);
-        }
-
-        partyRow.appendChild(slot);
-      }
-    }
-
-    function renderPCGrid(){
-      pcGrid.innerHTML = "";
-      const list = Array.from(pokedexIds).sort((a,b)=>a-b);
-      pcPartyInfo.textContent = `Party: ${party.length}/6`;
-
-      for(const id of list){
-        const data = caughtData[String(id)];
-        const div = document.createElement("div");
-        div.className = "dexCard";
-
-        const img = document.createElement("img");
-        img.className = "dexImg";
-        img.src = data?.sprite || spriteURL(id);
-
-        const name = document.createElement("div");
-        name.className = "dexName";
-        const inParty = party.includes(id);
-        const shiny = data?.shiny ? " ✨" : "";
-        name.textContent = `${titleCase(data?.name || ("#" + id))}${shiny}${inParty ? " (Party)" : ""}`;
-
-        div.appendChild(img);
-        div.appendChild(name);
-
-        div.onclick = () => {
-          if (party.includes(id)){
-            party = party.filter(x => x !== id);
-            showToast("Removed");
-          } else {
-            if (party.length >= 6){
-              showToast("Party full");
-              typeText("Party is full. Remove one from the party slots first.");
-              return;
-            }
-            party.push(id);
-            showToast("Added");
-          }
-          saveAll();
-          renderParty();
-          renderPCGrid();
-          pcPartyInfo.textContent = `Party: ${party.length}/6`;
-          popHearts(10);
-        };
-
-        pcGrid.appendChild(div);
-      }
-    }
-
-    function openPC(){
-      renderParty();
-      renderPCGrid();
-      pcBack.classList.add("show");
-    }
-    function closePC(){ pcBack.classList.remove("show"); }
-
-    // =========================================================
-    // Battle system: MOVES + TYPE + STATUS
-    // =========================================================
-    let battle = null;
-    const moveCache = loadJSON("moveCache", {}); // localStorage cache
-
-    function saveMoveCache(){
-      // keep cache small-ish
-      const keys = Object.keys(moveCache);
-      if (keys.length > 500){
-        for (let i=0;i<150;i++){
-          delete moveCache[keys[i]];
-        }
-      }
-      saveJSON("moveCache", moveCache);
-    }
-
-    async function getMoveDetails(url){
-      if (moveCache[url]) return moveCache[url];
-      const m = await fetchJSON(url);
-
-      const details = {
-        name: m.name,
-        type: m.type?.name || "normal",
-        power: Number(m.power || 0),
-        accuracy: Number(m.accuracy || 100),
-        pp: Number(m.pp || 10),
-        damage_class: m.damage_class?.name || "physical",
-        ailment: m.meta?.ailment?.name || "none",
-        ailment_chance: Number(m.meta?.ailment_chance || 0),
-        flinch_chance: Number(m.meta?.flinch_chance || 0)
-      };
-
-      moveCache[url] = details;
-      saveMoveCache();
-      return details;
-    }
-
-    function calcHP(baseHP, level){
-      return Math.max(30, Math.floor(baseHP * 0.9 + level * 2));
-    }
-
-    function megaEligible(){
-      return (inventory.megabracelet || 0) > 0 && (inventory.megastone || 0) > 0;
-    }
-
-    function applyMegaStats(p){
-      return {
-        ...p,
-        mega: true,
-        maxHP: Math.floor(p.maxHP * 1.15),
-        hp: Math.floor(p.hp * 1.15),
-        atk: Math.floor(p.atk * 1.25),
-        def: Math.floor(p.def * 1.25),
-        spd: Math.floor(p.spd * 1.25),
-      };
-    }
-
-    function speedWithStatus(p){
-      let spd = p.spd;
-      if (p.status?.name === "paralysis") spd = Math.floor(spd * 0.75);
-      return Math.max(1, spd);
-    }
-
-    function attackWithStatus(p){
-      let atk = p.atk;
-      if (p.status?.name === "burn") atk = Math.floor(atk * 0.5);
-      return Math.max(1, atk);
-    }
-
-    function statusLabel(s){
-      if (!s || s.name === "none") return "None";
-      if (s.name === "sleep") return `Sleep (${s.turns}t)`;
-      return titleCase(s.name);
-    }
-
-    function endTurnStatusTick(p){
-      if (!p.status || p.status.name === "none") return "";
-      if (p.status.name === "poison"){
-        const dmg = Math.max(1, Math.floor(p.maxHP / 8));
-        p.hp = Math.max(0, p.hp - dmg);
-        return `${titleCase(p.name)} took ${dmg} poison damage.`;
-      }
-      if (p.status.name === "burn"){
-        const dmg = Math.max(1, Math.floor(p.maxHP / 16));
-        p.hp = Math.max(0, p.hp - dmg);
-        return `${titleCase(p.name)} took ${dmg} burn damage.`;
-      }
-      if (p.status.name === "sleep"){
-        p.status.turns = Math.max(0, p.status.turns - 1);
-        if (p.status.turns === 0){
-          p.status = { name:"none" };
-          return `${titleCase(p.name)} woke up.`;
-        }
-      }
-      return "";
-    }
-
-    function maybeApplyAilment(defender, move){
-      if (!move.ailment || move.ailment === "none") return "";
-      if (!move.ailment_chance || move.ailment_chance <= 0) return "";
-      if (defender.status && defender.status.name !== "none") return "";
-
-      const roll = Math.random() * 100;
-      if (roll > move.ailment_chance) return "";
-
-      // common ailments we support
-      if (move.ailment === "sleep"){
-        defender.status = { name:"sleep", turns: 1 + Math.floor(Math.random()*3) };
-        return `${titleCase(defender.name)} fell asleep.`;
-      }
-      if (move.ailment === "paralysis"){
-        defender.status = { name:"paralysis" };
-        return `${titleCase(defender.name)} is paralyzed.`;
-      }
-      if (move.ailment === "burn"){
-        defender.status = { name:"burn" };
-        return `${titleCase(defender.name)} got burned.`;
-      }
-      if (move.ailment === "poison"){
-        defender.status = { name:"poison" };
-        return `${titleCase(defender.name)} got poisoned.`;
-      }
-      return "";
-    }
-
-    function canAct(p){
-      if (!p.status || p.status.name === "none") return { ok:true, note:"" };
-
-      if (p.status.name === "sleep"){
-        return { ok:false, note:`${titleCase(p.name)} is asleep.` };
-      }
-      if (p.status.name === "paralysis"){
-        if (Math.random() < 0.25){
-          return { ok:false, note:`${titleCase(p.name)} is paralyzed and cannot move.` };
-        }
-      }
-      return { ok:true, note:"" };
-    }
-
-    function damageFormula(attacker, defender, move){
-      const level = attacker.level;
-      const power = Math.max(1, move.power || 0);
-
-      let atk = attackWithStatus(attacker);
-      let def = defender.def;
-
-      // Special category uses same stats to keep it simple and fun
-      // If you want real SpA/SpD later, say so.
-      if (move.damage_class === "special"){
-        atk = attackWithStatus(attacker);
-        def = defender.def;
-      }
-
-      // Base damage
-      let dmg = Math.floor((((2 * level / 5) + 2) * power * atk / Math.max(1, def)) / 50) + 2;
-
-      // STAB
-      const stab = attacker.types.includes(move.type) ? 1.5 : 1.0;
-
-      // Type effectiveness
-      const mult = typeMultiplier(move.type, defender.types);
-
-      // crit
-      const crit = (Math.random() < 1/16) ? 1.5 : 1.0;
-
-      // random
-      const rand = 0.85 + Math.random() * 0.15;
-
-      dmg = Math.floor(dmg * stab * mult * crit * rand);
-
-      return {
-        dmg: Math.max(1, dmg),
-        mult,
-        crit: crit > 1
-      };
-    }
-
-    function effectivenessText(mult){
-      if (mult === 0) return "It had no effect.";
-      if (mult >= 2) return "It was super effective.";
-      if (mult <= 0.5) return "It was not very effective.";
-      return "";
-    }
-
-    async function pickFourMoves(pokemonObj){
-      const list = (pokemonObj.moves || [])
-        .map(x => x?.move)
-        .filter(Boolean);
-
-      // shuffle
-      for (let i=list.length-1; i>0; i--){
-        const j = Math.floor(Math.random()*(i+1));
-        [list[i], list[j]] = [list[j], list[i]];
-      }
-
-      const moves = [];
-      for (const mv of list){
-        if (moves.length >= 4) break;
-        try{
-          const det = await getMoveDetails(mv.url);
-          // prefer damaging moves
-          if (det.power && det.power > 0){
-            moves.push(det);
-          }
-        }catch{}
-      }
-
-      // fallback: if not enough damaging moves, add any moves
-      if (moves.length < 4){
-        for (const mv of list){
-          if (moves.length >= 4) break;
-          try{
-            const det = await getMoveDetails(mv.url);
-            if (!moves.some(x => x.name === det.name)){
-              moves.push(det);
-            }
-          }catch{}
-        }
-      }
-
-      // final fallback
-      while (moves.length < 4){
-        moves.push({ name:"tackle", type:"normal", power:40, accuracy:100, damage_class:"physical", ailment:"none", ailment_chance:0 });
-      }
-
-      return moves.slice(0,4);
-    }
-
-    async function buildRandomFoe(){
-      const target = weightedPick(rarityRoll);
-      const data = await loadRandomPokemonByRarity(target);
-      const p = data.pokemon;
-
-      const level = 1 + Math.floor(Math.random() * 55);
-      const shiny = rollShiny();
-
-      const baseHP = getStat(p, "hp");
-      const baseAtk = getStat(p, "attack");
-      const baseDef = getStat(p, "defense");
-      const baseSpd = getStat(p, "speed");
-
-      const foe = {
-        id: p.id,
-        name: p.name,
-        rarity: data.rarity,
-        level,
-        shiny,
-        art: artworkFromPokemon(p),
-        types: pickTypes(p),
-        maxHP: calcHP(baseHP, level),
-        hp: calcHP(baseHP, level),
-        atk: Math.floor(baseAtk * 0.9 + level),
-        def: Math.floor(baseDef * 0.9 + level),
-        spd: Math.floor(baseSpd * 0.9 + level),
-        status: { name:"none" },
-        moves: await pickFourMoves(p)
-      };
-      return foe;
-    }
-
-    async function buildPartyPokemon(){
-      const id = party[0];
-      if (!id) return null;
-      const data = caughtData[String(id)];
-      if (!data) return null;
-
-      // Load fresh pokemon for moves
-      const p = await fetchJSON(`https://pokeapi.co/api/v2/pokemon/${id}`);
-
-      const level = data.level || 10;
-      const maxHP = calcHP(data.stats?.hp || 60, level);
-
-      return {
-        id: data.id,
-        name: data.name,
-        level,
-        rarity: data.rarity || "common",
-        shiny: !!data.shiny,
-        art: data.art || artURL(data.id),
-        types: data.types || pickTypes(p),
-        maxHP,
-        hp: maxHP,
-        atk: Math.floor((data.stats?.atk || 55) * 0.9 + level),
-        def: Math.floor((data.stats?.def || 50) * 0.9 + level),
-        spd: Math.floor((data.stats?.spd || 50) * 0.9 + level),
-        mega: false,
-        status: { name:"none" },
-        moves: await pickFourMoves(p)
-      };
-    }
-
-    function renderBattleUI(){
-      if (!battle){
-        battleInfo.textContent = "Ready";
-        youName.textContent = "You: -";
-        foeName.textContent = "Foe: -";
-        youImg.src = "";
-        foeImg.src = "";
-        youStats.textContent = "HP: -";
-        foeStats.textContent = "HP: -";
-        youHPFill.style.width = "100%";
-        foeHPFill.style.width = "100%";
-        youMegaTag.textContent = "Mega: Off";
-        youTypeTag.textContent = "Type: -";
-        foeTypeTag.textContent = "Type: -";
-        foeRarity.textContent = "Rarity: -";
-        youStatusTag.textContent = "Status: None";
-        foeStatusTag.textContent = "Status: None";
-        moveGrid.innerHTML = "";
-        return;
-      }
-
-      const you = battle.you;
-      const foe = battle.foe;
-
-      youName.textContent = `You: ${titleCase(you.name)} (Lv ${you.level})`;
-      foeName.textContent = `Foe: ${titleCase(foe.name)} (Lv ${foe.level})${foe.shiny ? " ✨" : ""}`;
-
-      youImg.src = you.art || artURL(you.id);
-      foeImg.src = foe.art || artURL(foe.id);
-
-      youStats.textContent = `HP: ${you.hp}/${you.maxHP} | ATK ${you.atk} | DEF ${you.def} | SPD ${you.spd}`;
-      foeStats.textContent = `HP: ${foe.hp}/${foe.maxHP} | ATK ${foe.atk} | DEF ${foe.def} | SPD ${foe.spd}`;
-
-      youHPFill.style.width = `${Math.max(0, Math.round((you.hp / you.maxHP) * 100))}%`;
-      foeHPFill.style.width = `${Math.max(0, Math.round((foe.hp / foe.maxHP) * 100))}%`;
-
-      youMegaTag.textContent = `Mega: ${you.mega ? "On" : "Off"}`;
-      youTypeTag.textContent = `Type: ${you.types?.length ? you.types.map(titleCase).join(", ") : "-"}`;
-      foeTypeTag.textContent = `Type: ${foe.types?.length ? foe.types.map(titleCase).join(", ") : "-"}`;
-      foeRarity.textContent = `Rarity: ${titleCase(foe.rarity)}`;
-
-      youStatusTag.textContent = `Status: ${statusLabel(you.status)}`;
-      foeStatusTag.textContent = `Status: ${statusLabel(foe.status)}`;
-
-      potionBtn.disabled = (inventory.potion || 0) <= 0;
-      megaBtn.disabled = !(megaEligible() && !you.mega);
-
-      // moves
-      moveGrid.innerHTML = "";
-      you.moves.forEach((mv, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "moveBtn";
-        btn.innerHTML = `<div>${titleCase(mv.name)}</div>
-                         <div class="moveMeta">Type: ${titleCase(mv.type)} | Pow: ${mv.power || 0} | Acc: ${mv.accuracy || 100}%</div>`;
-        btn.disabled = battle.over || battle.locked;
-        btn.onclick = () => playerUseMove(idx);
-        moveGrid.appendChild(btn);
-      });
-    }
-
-    function endBattle(win){
-      battle.over = true;
-      battle.locked = true;
-
-      if (win){
-        const reward = 35 + Math.floor(Math.random() * 41); // 35..75
-        coins += reward;
-        saveAll();
-        updateHUD();
-        renderShop();
-        battleInfo.textContent = "You win";
-        battleLog.textContent = `You won! +${reward} coins.`;
-        showToast(`+${reward} coins`);
-        popHearts(28);
-        updateStreak(true);
-      } else {
-        battleInfo.textContent = "You lost";
-        battleLog.textContent = "You lost. It was lag.";
-        showToast("Rip");
-        popHearts(12);
-        updateStreak(false);
-      }
-      renderBattleUI();
-    }
-
-    function checkBattleEnd(){
-      if (battle.you.hp <= 0) { endBattle(false); return true; }
-      if (battle.foe.hp <= 0) { endBattle(true); return true; }
-      return false;
-    }
-
-    function foePickMove(){
-      // simple AI: prefer super effective, else random
-      const foe = battle.foe;
-      const you = battle.you;
-
-      let best = [];
-      let bestMult = -1;
-
-      foe.moves.forEach((mv, i) => {
-        if (!mv.power || mv.power <= 0) return;
-        const mult = typeMultiplier(mv.type, you.types);
-        if (mult > bestMult){
-          bestMult = mult;
-          best = [i];
-        } else if (mult === bestMult){
-          best.push(i);
-        }
-      });
-
-      if (!best.length) return Math.floor(Math.random()*foe.moves.length);
-      return best[Math.floor(Math.random()*best.length)];
-    }
-
-    async function doMove(attackerKey, defenderKey, moveIndex){
-      const attacker = battle[attackerKey];
-      const defender = battle[defenderKey];
-      const move = attacker.moves[moveIndex] || attacker.moves[0];
-
-      // sleep or paralysis check
-      const act = canAct(attacker);
-      if (!act.ok){
-        battleLog.textContent = act.note;
-        return { happened:false, note:act.note };
-      }
-
-      // accuracy
-      const acc = Math.max(1, Math.min(100, move.accuracy || 100));
-      if (Math.random()*100 > acc){
-        battleLog.textContent = `${titleCase(attacker.name)} used ${titleCase(move.name)} and missed.`;
-        return { happened:true, note:"miss" };
-      }
-
-      // if move has no power, treat as "status attempt"
-      if (!move.power || move.power <= 0){
-        const ail = maybeApplyAilment(defender, move);
-        const msg = `${titleCase(attacker.name)} used ${titleCase(move.name)}.${ail ? " " + ail : ""}`;
-        battleLog.textContent = msg;
-        return { happened:true, note:msg };
-      }
-
-      const { dmg, mult, crit } = damageFormula(attacker, defender, move);
-      defender.hp = Math.max(0, defender.hp - dmg);
-
-      let msg = `${titleCase(attacker.name)} used ${titleCase(move.name)} and dealt ${dmg} damage.`;
-      if (crit) msg += " Critical hit.";
-      const eff = effectivenessText(mult);
-      if (eff) msg += " " + eff;
-
-      const ail = maybeApplyAilment(defender, move);
-      if (ail) msg += " " + ail;
-
-      battleLog.textContent = msg;
-
-      return { happened:true, note:msg };
-    }
-
-    async function doTurn(playerMoveIndex){
-      if (!battle || battle.over) return;
-      battle.locked = true;
-      renderBattleUI();
-
-      const you = battle.you;
-      const foe = battle.foe;
-
-      const youSpeed = speedWithStatus(you);
-      const foeSpeed = speedWithStatus(foe);
-      const youFirst = youSpeed >= foeSpeed;
-
-      // Player / foe actions
-      if (youFirst){
-        await doMove("you","foe", playerMoveIndex);
-        renderBattleUI();
-        if (checkBattleEnd()) return;
-
-        await new Promise(r => setTimeout(r, 450));
-        await doMove("foe","you", foePickMove());
-        renderBattleUI();
-        if (checkBattleEnd()) return;
-      } else {
-        await doMove("foe","you", foePickMove());
-        renderBattleUI();
-        if (checkBattleEnd()) return;
-
-        await new Promise(r => setTimeout(r, 450));
-        await doMove("you","foe", playerMoveIndex);
-        renderBattleUI();
-        if (checkBattleEnd()) return;
-      }
-
-      // end of turn ticks
-      const tickA = endTurnStatusTick(battle.you);
-      const tickB = endTurnStatusTick(battle.foe);
-      if (tickA || tickB){
-        const msg = [tickA, tickB].filter(Boolean).join(" ");
-        battleLog.textContent = msg;
-        renderBattleUI();
-        if (checkBattleEnd()) return;
-      }
-
-      battle.locked = false;
-      renderBattleUI();
-    }
-
-    function playerUseMove(idx){
-      if (!battle || battle.over || battle.locked) return;
-      doTurn(idx);
-    }
-
-    function usePotion(){
-      if (!battle || battle.over || battle.locked) return;
-      if ((inventory.potion || 0) <= 0){
-        battleLog.textContent = "No potion.";
-        return;
-      }
-      inventory.potion -= 1;
-      const heal = Math.floor(battle.you.maxHP * 0.35);
-      battle.you.hp = Math.min(battle.you.maxHP, battle.you.hp + heal);
-      saveAll();
-      updateHUD();
-      renderShop();
-      battleLog.textContent = `Potion used. Healed ${heal} HP.`;
-      showToast("Potion");
-      renderBattleUI();
-    }
-
-    function megaEvolve(){
-      if (!battle || battle.over || battle.locked) return;
-      if (!megaEligible()){
-        battleLog.textContent = "You need Mega Bracelet and Mega Stone.";
-        return;
-      }
-      if (battle.you.mega){
-        battleLog.textContent = "Already Mega.";
-        return;
-      }
-      battle.you = applyMegaStats(battle.you);
-      battleLog.textContent = "Mega Evolution activated. Stats boosted.";
-      showToast("MEGA!");
-      popHearts(26);
-      renderBattleUI();
-    }
-
-    async function startBattle(){
-      const haveParty = party[0] && caughtData[String(party[0])];
-      if (!haveParty){
-        battleLog.textContent = "You need at least 1 Pokémon in party. Open PC and add one.";
-        showToast("No party");
-        return;
-      }
-
-      battleInfo.textContent = "Loading...";
-      battleLog.textContent = "Entering the arena...";
-      showToast("Battle!");
-      moveGrid.innerHTML = "";
-
-      try{
-        const you = await buildPartyPokemon();
-        const foe = await buildRandomFoe();
-        battle = { you, foe, over:false, locked:false };
-
-        battleInfo.textContent = "Battle started";
-        battleLog.textContent = "Pick a move. Type matchups matter.";
-        renderBattleUI();
-
-        potionBtn.disabled = (inventory.potion || 0) <= 0;
-        megaBtn.disabled = !(megaEligible() && !battle.you.mega);
-
-        popHearts(16);
-      }catch{
-        battleInfo.textContent = "Network issue";
-        battleLog.textContent = "Could not load moves. This needs internet when hosted.";
-        battle = null;
-        renderBattleUI();
-      }
-    }
-
-    // =========================================================
-    // Modals
-    // =========================================================
-    pokedexBtn.onclick = () => openDex();
-    dexClose.onclick = () => closeDex();
-    dexBack.onclick = (e) => { if (e.target === dexBack) closeDex(); };
-
-    pcBtn.onclick = () => openPC();
-    pcClose.onclick = () => closePC();
-    pcBack.onclick = (e) => { if (e.target === pcBack) closePC(); };
-
-    battleBtn.onclick = () => { battleBack.classList.add("show"); renderBattleUI(); };
-    battleClose.onclick = () => battleBack.classList.remove("show");
-    battleBack.onclick = (e) => { if (e.target === battleBack) battleBack.classList.remove("show"); };
-
-    startBattleBtn.onclick = () => startBattle();
-    potionBtn.onclick = () => usePotion();
-    megaBtn.onclick = () => megaEvolve();
-
-    // =========================================================
-    // Reset
-    // =========================================================
-    function resetAll(){
-      coins = 100;
-      caught = 0;
-      streak = 0;
-      pokedexIds = new Set();
-      caughtData = {};
-      party = [];
-
-      inventory = {
-        poke:5, great:2, ultra:1, master:0, premier:0, dusk:0, quick:0, timer:0, dive:0, net:0, nest:0, repeat:0, safari:0, sport:0,
-        potion:2, catchspray:0, luckycharm:0, sharm:0, megabracelet:0, megastone:0
-      };
-
-      sale = null;
-      encounter = null;
-      attempts = 0;
-      firstThrow = true;
-      sprayArmed = false;
-      battle = null;
-
-      saveAll();
-      renderBallSelect();
-      renderShop();
-      updateHUD();
-      clearEncounterUI();
-      renderBattleUI();
-      typeText("Reset complete. Fresh start.");
-      showToast("Reset");
-      popHearts(14);
-    }
-    resetBtn.onclick = () => resetAll();
-
-    // =========================================================
-    // Sale tick
-    // =========================================================
-    function tick(){
-      if (sale && sale.end <= Date.now()){
-        sale = null;
-        saveJSON("sale", null);
-      }
-      updateHUD();
-    }
-    setInterval(tick, 1000);
-
-    // =========================================================
-    // Extras
-    // =========================================================
-    modeTag.style.cursor = "pointer";
-    modeTag.onclick = () => useCatchSpray();
-    ballSelect.onchange = () => updateHUD();
-
-    // =========================================================
-    // Init
-    // =========================================================
-    function autoFillPartyIfEmpty(){
-      if (party.length > 0) return;
-      const list = Array.from(pokedexIds).sort((a,b)=>a-b);
-      party = list.slice(0,6);
-      saveAll();
-    }
-
-    function init(){
-      const storedSale = loadJSON("sale", null);
-      if (storedSale && storedSale.end > Date.now()) sale = storedSale;
-      else sale = null;
-
-      party = (party || []).filter(id => caughtData[String(id)]);
-      autoFillPartyIfEmpty();
-
-      renderBallSelect();
-      renderShop();
-      updateHUD();
-      clearEncounterUI();
-      renderBattleUI();
-
-      if (!ballSelect.value) ballSelect.value = "poke";
-      updateHUD();
-
-      typeText("Sweet message, funny joke, or go catch a Pokémon. Open PC to build a party and battle.");
-    }
-
-    init();
   </script>
 </body>
 </html>
